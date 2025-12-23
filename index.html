@@ -117,17 +117,17 @@
             width: 100%;
             height: 100%;
             z-index: 9999;
-            background: rgba(0, 0, 0, 0.9);
+            background: #000;
+            justify-content: center;
+            align-items: center;
         }
 
-        #rickroll-video {
+        #rickroll-gif {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 800px;
-            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
         }
 
         #dancing-button {
@@ -289,12 +289,10 @@
 
     <!-- Rickroll Section -->
     <div id="rickroll-section">
-        <iframe id="rickroll-video" 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&playlist=dQw4w9WgXcQ" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media" 
-                allowfullscreen>
-        </iframe>
+        <img id="rickroll-gif" src="https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif" alt="Rick Astley">
+        <audio id="rickroll-audio" loop>
+            <source src="rickroll.mp3" type="audio/mpeg">
+        </audio>
         <button id="dancing-button" onclick="startTerminal()">
             WEITER ZUM ECHTEN GESCHENK
         </button>
@@ -332,7 +330,12 @@
 
         function startRickroll() {
             document.getElementById('main-content').style.display = 'none';
-            document.getElementById('rickroll-section').style.display = 'block';
+            const rickrollSection = document.getElementById('rickroll-section');
+            rickrollSection.style.display = 'flex';
+            
+            // Start audio
+            const audio = document.getElementById('rickroll-audio');
+            audio.play().catch(e => console.log('Autoplay blocked:', e));
             
             rickrollStartTime = Date.now();
             
@@ -403,6 +406,11 @@
         }
 
         async function startTerminal() {
+            // Stop audio
+            const audio = document.getElementById('rickroll-audio');
+            audio.pause();
+            audio.currentTime = 0;
+            
             document.getElementById('rickroll-section').style.display = 'none';
             document.getElementById('terminal').style.display = 'block';
             
