@@ -357,43 +357,112 @@
         }
 
         // --- 2. VIRUS LOGIC ---
+        // Erweiterte Popup-Texte und Status-Nachrichten
+        const popupTexts = [
+            "LÖSCHE DATEN...",
+            "STEAM WIRD ENTFERNT...",
+            "COUNTER-STRIKE 2 GELÖSCHT",
+            "FORTNITE WIRD DEINSTALLIERT",
+            "SKYRIM SAVES FORMATIERT",
+            "ELDEN RING WIRD GELÖSCHT",
+            "BALDUR'S GATE 3 ENTFERNT",
+            "CYBERPUNK 2077 FORMATIERT",
+            "WITCHER 3 WIRD GELÖSCHT",
+            "RED DEAD REDEMPTION 2 ENTFERNT",
+            "GTA V WIRD FORMATIERT",
+            "MINECRAFT WELTEN GELÖSCHT",
+            "FIFA KARRIERE ZERSTÖRT",
+            "CALL OF DUTY MW3 ENTFERNT",
+            "BATTLEFIELD 2042 GELÖSCHT",
+            "APEX LEGENDS FORMATIERT",
+            "VALORANT WIRD ENTFERNT",
+            "LEAGUE OF LEGENDS GELÖSCHT",
+            "DOTA 2 WIRD FORMATIERT",
+            "OVERWATCH 2 ENTFERNT",
+            "WARZONE 2.0 GELÖSCHT",
+            "DESTINY 2 FORMATIERT",
+            "STARFIELD WIRD GELÖSCHT",
+            "HOGWARTS LEGACY ENTFERNT",
+            "RESIDENT EVIL 4 FORMATIERT"
+        ];
+
+        const statusTexts = [
+            "C:/Program Files/Steam/... wird formatiert",
+            "C:/Users/Rene/AppData/... ZUGRIFF VERWEIGERT",
+            "D:/Games/... WIRD ÜBERSCHRIEBEN",
+            "steamapps/common/... DATENVERLUST",
+            "C:/Program Files (x86)/... FEHLER 0x8007045D",
+            "Disk0/Partition2/... SEKTOR BESCHÄDIGT",
+            "E:/SteamLibrary/... KORRUPTE DATEN ERKANNT"
+        ];
+
         function triggerVirus() {
             document.body.classList.remove('scam-mode');
             const vs = document.getElementById('virus-section');
             vs.classList.add('virus-red-bg');
             vs.style.display = 'block';
             
-            // Progress Bar
+            let statusIndex = 0;
+            
+            // Progress Bar mit mehr Varianz
             let w = 0;
             const bar = document.getElementById('progress-bar');
             const int = setInterval(() => {
                 if (w >= 87) {
                     clearInterval(int);
                     document.getElementById('virus-status').textContent = "FEHLER! MANUELLES EINGREIFEN ERFORDERLICH!";
-                    createPopup("KÜHLUNG DEFEKT");
+                    createPopup("KÜHLUNG DEFEKT", true);
                     startWireGame();
                 } else {
-                    w += 0.5; bar.style.width = w+'%';
-                    if(Math.floor(w)%10===0) createPopup("LÖSCHE DATEN...");
+                    w += 0.5; 
+                    bar.style.width = w+'%';
+                    
+                    // Status-Text alle 5%
+                    if(Math.floor(w) % 5 === 0 && w > 0) {
+                        document.getElementById('virus-status').textContent = statusTexts[statusIndex % statusTexts.length];
+                        statusIndex++;
+                    }
+                    
+                    // Popups mit verschiedenen Texten
+                    if(Math.floor(w) % 7 === 0 && w > 0) {
+                        createPopup(popupTexts[Math.floor(Math.random() * popupTexts.length)]);
+                    }
                 }
             }, 80);
         }
 
-        function createPopup(text) {
+        function createPopup(text, isCritical = false) {
             const p = document.createElement('div');
-            p.style.cssText = `position:fixed; left:${Math.random()*80}%; top:${Math.random()*80}%; background:white; border:2px solid red; padding:5px; z-index:7500; font-weight:bold; color:black;`;
+            const x = Math.random() * 80;
+            const y = Math.random() * 80;
+            const borderColor = isCritical ? 'yellow' : 'red';
+            const bgColor = isCritical ? 'black' : 'white';
+            const textColor = isCritical ? 'yellow' : 'black';
+            
+            p.style.cssText = `position:fixed; left:${x}%; top:${y}%; background:${bgColor}; border:2px solid ${borderColor}; padding:5px; z-index:7500; font-weight:bold; color:${textColor}; box-shadow: 0 0 10px ${borderColor};`;
             p.innerText = text;
             document.body.appendChild(p);
-            setTimeout(()=>p.remove(), 1500);
+            setTimeout(()=>p.remove(), isCritical ? 3000 : 1500);
         }
 
         // --- 3. GAME 1: WIRE GAME (CANVAS) ---
         let canvas, ctx, isPlayingWire = false;
+        let wireFailCount = 0;
+        let wireGameStarted = false; // Muss erst am Start beginnen
+        
+        const wireFailMessages = [
+            "⚡ ZAP! NEUSTART! ⚡",
+            "⚡ KURZSCHLUSS! VERSUCH'S NOCHMAL! ⚡",
+            "⚡ ÜBERSPANNUNG! VORSICHT! ⚡",
+            "⚡ STROMSCHLAG! NOCH EIN VERSUCH! ⚡",
+            "⚡ KONTAKT MIT LAVA! RESET! ⚡"
+        ];
         
         function startWireGame() {
             document.getElementById('wire-game-container').style.display = 'block';
             canvas = document.getElementById('wire-canvas');
             ctx = canvas.getContext('2d');
+            wireGameStarted = false;
             drawWireLevel();
             
             canvas.addEventListener('mousemove', handleWireMove);
@@ -405,30 +474,36 @@
             ctx.fillStyle = "#500"; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Der Pfad (Sicher)
+            // Der Pfad (Sicher) - jetzt SCHMALER und KOMPLEXER
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.lineWidth = 40; // Breite des Pfads
-            ctx.strokeStyle = "#888"; // Farbe des Pfads
+            ctx.lineWidth = 28; // Schmaler gemacht (war 40)
+            ctx.strokeStyle = "#888";
 
             ctx.beginPath();
             ctx.moveTo(30, 150);
-            ctx.lineTo(100, 150);
-            ctx.lineTo(100, 50);
-            ctx.lineTo(250, 50);
-            ctx.lineTo(250, 250);
-            ctx.lineTo(400, 250);
-            ctx.lineTo(400, 100);
-            ctx.lineTo(550, 100);
+            ctx.lineTo(80, 150);
+            ctx.lineTo(80, 70);
+            ctx.lineTo(180, 70);
+            ctx.lineTo(180, 200);
+            ctx.lineTo(130, 200);
+            ctx.lineTo(130, 260);
+            ctx.lineTo(300, 260);
+            ctx.lineTo(300, 140);
+            ctx.lineTo(370, 140);
+            ctx.lineTo(370, 220);
+            ctx.lineTo(470, 220);
+            ctx.lineTo(470, 80);
+            ctx.lineTo(550, 80);
             ctx.stroke();
 
             // Startzone
             ctx.fillStyle = "#0f0";
-            ctx.beginPath(); ctx.arc(30, 150, 20, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(30, 150, 22, 0, Math.PI*2); ctx.fill();
 
             // Zielzone
             ctx.fillStyle = "#00f";
-            ctx.beginPath(); ctx.arc(550, 100, 20, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(550, 80, 22, 0, Math.PI*2); ctx.fill();
         }
 
         function handleWireMove(e) {
@@ -437,28 +512,35 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            // Pixel Check
             const pixel = ctx.getImageData(x, y, 1, 1).data;
-            // R, G, B. Hintergrund ist rot-ish (R=85, G=0, B=0)
-            
-            // Wenn wir den roten Hintergrund berühren (Rot > Grün und Rot > Blau)
-            // Pfad ist Grau (136,136,136), Start Grün (0,255,0), Ziel Blau (0,0,255)
-            
-            // Einfache Logik: Wenn Pixel viel Rot hat und wenig Grün/Blau -> TOT
-            // Grau: R=136. Dunkelrot: R=85. 
-            // Wir prüfen einfach ob es NICHT sicher ist.
-            // Sicher = Grün (Start), Blau (Ziel) oder Grau (Pfad).
-            
             const isRed = pixel[0] > 50 && pixel[1] < 50 && pixel[2] < 50;
+            const isGreen = pixel[1] > 200 && pixel[0] < 50 && pixel[2] < 50;
+            const isBlue = pixel[2] > 200 && pixel[0] < 50 && pixel[1] < 50;
+
+            // Muss erst am grünen Startpunkt beginnen
+            if (!wireGameStarted) {
+                if (isGreen) {
+                    wireGameStarted = true;
+                    document.getElementById('wire-status').innerText = "✓ START! JETZT ZUM BLAUEN ZIEL!";
+                    document.getElementById('wire-status').style.color = "lime";
+                } else {
+                    document.getElementById('wire-status').innerText = "⚠️ BEGINNE AM GRÜNEN STARTPUNKT! ⚠️";
+                    document.getElementById('wire-status').style.color = "yellow";
+                }
+                return;
+            }
 
             if (isRed) {
-                // FAIL
-                document.getElementById('wire-status').innerText = "⚡ ZAP! NEUSTART! ⚡";
+                // FAIL - verschiedene Nachrichten
+                wireFailCount++;
+                wireGameStarted = false; // Muss neu starten!
+                document.getElementById('wire-status').innerText = wireFailMessages[wireFailCount % wireFailMessages.length] + " VON VORNE!";
                 document.getElementById('wire-status').style.color = "red";
-                // Reset Mouse visual (Shake screen)
+                
+                // Screen shake
                 document.body.style.transform = "translate(5px, 5px)";
                 setTimeout(()=>document.body.style.transform="none", 100);
-            } else if (pixel[2] > 200 && pixel[0] < 50) {
+            } else if (isBlue) {
                 // BLUE = WIN
                 isPlayingWire = false;
                 canvas.removeEventListener('mousemove', handleWireMove);
@@ -474,9 +556,17 @@
         let score = 0;
         let shooterInterval;
         
+        const shooterMessages = [
+            "TREFFER! VIRUS ELIMINIERT!",
+            "MALWARE ENTFERNT!",
+            "BEDROHUNG BESEITIGT!",
+            "KRITISCHER TREFFER!",
+            "VIRUS NEUTRALISIERT!"
+        ];
+        
         function startShooterGame() {
             document.getElementById('shooter-container').style.display = 'block';
-            shooterInterval = setInterval(spawnBug, 400); // Alle 400ms ein neuer Bug
+            shooterInterval = setInterval(spawnBug, 400);
         }
 
         function spawnBug() {
@@ -490,7 +580,6 @@
             bug.style.top = startY + 'px';
             bug.style.left = '-50px';
             
-            // Bewegung
             let posX = -50;
             const speed = 3 + Math.random() * 5;
             
@@ -503,12 +592,17 @@
                 }
             }, 20);
 
-            // Klick Event
             bug.onmousedown = () => {
-                score += 10; // 10 Punkte pro Treffer
+                score += 10;
                 document.getElementById('score-board').innerText = `VIREN: ${score} / 100`;
                 bug.innerText = "💥";
                 clearInterval(moveInt);
+                
+                // Gelegentlich Erfolgsnachricht als Popup
+                if (score % 30 === 0 && score < 100) {
+                    createPopup(shooterMessages[Math.floor(Math.random() * shooterMessages.length)]);
+                }
+                
                 setTimeout(() => bug.remove(), 200);
                 
                 if (score >= 100) {
@@ -521,11 +615,9 @@
 
         function endShooterGame() {
             clearInterval(shooterInterval);
-            // Alle Bugs entfernen
             document.getElementById('shooter-container').innerHTML = ''; 
             document.getElementById('shooter-container').style.display = 'none';
             
-            // Zeige Not-Aus
             document.getElementById('emergency-override').style.display = 'block';
         }
 
@@ -558,15 +650,41 @@
         const tContent = document.getElementById('terminal-content');
         const tInput = document.getElementById('terminal-input');
 
+        // Erweiterte Terminal-Boot-Nachrichten
+        const bootMessages = [
+            "INITIALISIERE SYSTEMWIEDERHERSTELLUNG...",
+            "LADE BIOS v2.45.3...",
+            "PRÜFE HARDWARE-INTEGRITÄT...",
+            "CPU: OK | RAM: OK | GPU: OK",
+            "DATEISYSTEM WIRD ÜBERPRÜFT...",
+            "SEKTOR 0-4096: INTAKT",
+            "SEKTOR 4097-8192: REPARIERT",
+            "NOTFALL-PARTITION GEFUNDEN",
+            "STARTE DATENRETTUNGSMODUS...",
+            "",
+            "REBOOT SYSTEM...",
+            "KERNEL LOADING... DONE",
+            "MOUNTING FILESYSTEMS...",
+            "DATENINTEGRITÄT... OK.",
+            "STEAM... GERETTET.",
+            "SAVEGAMES... WIEDERHERGESTELLT.",
+            "CLOUD-SYNC... AKTIV.",
+            "",
+            "SICHERHEITSPRÜFUNG AKTIVIERT...",
+            "IDENTITÄTSVERIFIKATION ERFORDERLICH.",
+            ""
+        ];
+
         async function startTerminal() {
             document.getElementById('virus-section').style.display = 'none';
             document.querySelectorAll('div[style*="z-index:7500"]').forEach(e=>e.remove());
             document.getElementById('terminal').style.display = 'block';
             
-            await typeLine("REBOOT SYSTEM...");
-            await typeLine("DATENINTEGRITÄT... OK.");
-            await typeLine("STEAM... GERETTET.");
-            await typeLine("");
+            // Zeige alle Boot-Nachrichten
+            for (let msg of bootMessages) {
+                await typeLine(msg);
+            }
+            
             askQ();
         }
 
@@ -586,7 +704,7 @@
                 document.getElementById('final-message').style.display = 'flex';
                 return;
             }
-            typeLine(`FRAGE ${qIdx+1}: ${questions[qIdx].q}`).then(()=>{
+            typeLine(`SICHERHEITSFRAGE ${qIdx+1}/3: ${questions[qIdx].q}`).then(()=>{
                 document.getElementById('prompt').style.display='inline';
                 tInput.value=''; tInput.focus();
             });
@@ -599,9 +717,9 @@
                 document.getElementById('prompt').style.display='none';
                 typeLine(`> ${tInput.value}`);
                 if(q.a.some(x=>v.includes(x))) {
-                    typeLine("KORREKT.").then(()=>{qIdx++;setTimeout(askQ,500)});
+                    typeLine("✓ KORREKT. ZUGRIFF GEWÄHRT.").then(()=>{qIdx++;setTimeout(askQ,500)});
                 } else {
-                    typeLine(`FALSCH. TIPP: ${q.h}`).then(()=>setTimeout(askQ,1000));
+                    typeLine(`✗ FALSCH. HINWEIS: ${q.h}`).then(()=>setTimeout(askQ,1000));
                 }
             }
         });
