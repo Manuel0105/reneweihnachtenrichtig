@@ -184,13 +184,26 @@
         /* --- FAKE CURSOR --- */
         .fake-cursor {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: red;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid white;
+            transform: rotate(-45deg);
             pointer-events: none;
             z-index: 9999;
-            box-shadow: 0 0 10px red;
+            filter: drop-shadow(0 0 3px black);
+        }
+        
+        .fake-cursor::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -4px;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border: 1px solid black;
         }
 
         /* --- PHOTOBOMB --- */
@@ -352,6 +365,28 @@
     <div id="terminal">
         <div id="terminal-content"></div>
         <span id="prompt" style="display:none;">&gt; <input type="text" id="terminal-input" autofocus></span>
+    </div>
+
+    <div id="password-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #0f0; font-family: 'Courier New', monospace; justify-content: center; align-items: center; flex-direction: column; z-index: 9500;">
+        <div style="text-align: center; max-width: 600px; padding: 40px; border: 2px solid #0f0; background: rgba(0,255,0,0.05);">
+            <h1 style="font-size: 2.5em; margin-bottom: 30px;">🔒 SYSTEMZUGRIFF</h1>
+            <p style="font-size: 1.3em; margin-bottom: 20px;">PASSWORT ERFORDERLICH</p>
+            <p style="font-size: 0.9em; color: #0a0; margin-bottom: 30px;">Gib das Zugangspasswort ein:</p>
+            <input type="text" id="password-input" style="width: 100%; padding: 15px; font-size: 1.5em; background: #000; border: 2px solid #0f0; color: #0f0; font-family: 'Courier New', monospace; text-align: center;" placeholder="**************" autofocus>
+            <button onclick="checkPassword()" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 1.3em; background: #0f0; color: #000; border: none; cursor: pointer; font-weight: bold; font-family: 'Courier New', monospace;">
+                ENTSPERREN
+            </button>
+            <button id="forgot-password-btn" onclick="showPasswordHints()" style="width: 100%; margin-top: 15px; padding: 10px; font-size: 1em; background: transparent; color: #0f0; border: 1px solid #0f0; cursor: pointer; font-family: 'Courier New', monospace;">
+                Passwort vergessen?
+            </button>
+            <div id="password-hints" style="display: none; margin-top: 30px; padding: 20px; border: 1px dashed #0f0; text-align: left; background: rgba(0,50,0,0.5);">
+                <h3 style="color: yellow; margin-bottom: 15px;">💡 HINWEISE:</h3>
+                <p style="margin: 10px 0; font-size: 0.95em;">1. Sophias zweiter Name rückwärts (Kleinbuchstaben)</p>
+                <p style="margin: 10px 0; font-size: 0.95em;">2. + Manuels Geburtstag (DDMMYYYY ohne Punkte)</p>
+                <p style="margin: 15px 0; color: yellow; font-size: 0.9em;">Format: [name][datum] alles zusammen</p>
+            </div>
+            <p id="password-error" style="display: none; margin-top: 20px; color: red; font-size: 1.1em; font-weight: bold;">❌ ZUGRIFF VERWEIGERT</p>
+        </div>
     </div>
 
     <div id="final-message">
@@ -612,7 +647,6 @@
         function createFakeCursorWire() {
             fakeCursorWire = document.createElement('div');
             fakeCursorWire.className = 'fake-cursor';
-            fakeCursorWire.style.background = 'red';
             document.body.appendChild(fakeCursorWire);
             
             let mouseX = 0, mouseY = 0;
@@ -622,19 +656,23 @@
                 mouseY = e.clientY;
             });
             
-            // Fake Cursor folgt mit Verzögerung
+            // Fake Cursor folgt mit Verzögerung aber SCHNELLER und CHAOTISCHER
             fakeCursorInterval = setInterval(() => {
                 if (fakeCursorWire && isPlayingWire) {
                     const currentX = parseInt(fakeCursorWire.style.left) || mouseX;
                     const currentY = parseInt(fakeCursorWire.style.top) || mouseY;
                     
-                    const newX = currentX + (mouseX - currentX) * 0.3;
-                    const newY = currentY + (mouseY - currentY) * 0.3;
+                    // Schnellere Verfolgung + zufällige Abweichung
+                    const randomOffsetX = (Math.random() - 0.5) * 40;
+                    const randomOffsetY = (Math.random() - 0.5) * 40;
+                    
+                    const newX = currentX + (mouseX - currentX) * 0.6 + randomOffsetX;
+                    const newY = currentY + (mouseY - currentY) * 0.6 + randomOffsetY;
                     
                     fakeCursorWire.style.left = newX + 'px';
                     fakeCursorWire.style.top = newY + 'px';
                 }
-            }, 50);
+            }, 30); // Schneller (war 50ms)
         }
 
         function removeFakeCursorWire() {
@@ -647,27 +685,35 @@
             ctx.fillStyle = "#500"; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Der Pfad (Sicher) - jetzt SCHMALER und KOMPLEXER
+            // Der Pfad (Sicher) - NOCH SCHMALER und SEHR ZACKIG
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.lineWidth = 28; // Schmaler gemacht (war 40)
+            ctx.lineWidth = 20; // Noch schmaler! (war 28)
             ctx.strokeStyle = "#888";
 
             ctx.beginPath();
             ctx.moveTo(30, 150);
-            ctx.lineTo(80, 150);
-            ctx.lineTo(80, 70);
-            ctx.lineTo(180, 70);
+            ctx.lineTo(70, 150);
+            ctx.lineTo(70, 90);
+            ctx.lineTo(120, 90);
+            ctx.lineTo(120, 180);
+            ctx.lineTo(90, 180);
+            ctx.lineTo(90, 250);
+            ctx.lineTo(180, 250);
             ctx.lineTo(180, 200);
-            ctx.lineTo(130, 200);
-            ctx.lineTo(130, 260);
-            ctx.lineTo(300, 260);
-            ctx.lineTo(300, 140);
-            ctx.lineTo(370, 140);
-            ctx.lineTo(370, 220);
-            ctx.lineTo(470, 220);
-            ctx.lineTo(470, 80);
-            ctx.lineTo(550, 80);
+            ctx.lineTo(240, 200);
+            ctx.lineTo(240, 60);
+            ctx.lineTo(310, 60);
+            ctx.lineTo(310, 150);
+            ctx.lineTo(360, 150);
+            ctx.lineTo(360, 240);
+            ctx.lineTo(420, 240);
+            ctx.lineTo(420, 170);
+            ctx.lineTo(480, 170);
+            ctx.lineTo(480, 90);
+            ctx.lineTo(530, 90);
+            ctx.lineTo(530, 120);
+            ctx.lineTo(550, 120);
             ctx.stroke();
 
             // Startzone
@@ -676,7 +722,7 @@
 
             // Zielzone
             ctx.fillStyle = "#00f";
-            ctx.beginPath(); ctx.arc(550, 80, 22, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(550, 120, 22, 0, Math.PI*2); ctx.fill();
         }
 
         function handleWireMove(e) {
@@ -750,20 +796,21 @@
             for (let i = 0; i < 4; i++) {
                 const cursor = document.createElement('div');
                 cursor.className = 'fake-cursor';
-                cursor.style.background = ['red', 'blue', 'yellow', 'lime'][i];
                 document.body.appendChild(cursor);
                 fakeCursorsShooter.push(cursor);
             }
             
-            // Bewege Fake Cursor zufällig
+            // Bewege Fake Cursor SCHNELL und CHAOTISCH
             setInterval(() => {
                 fakeCursorsShooter.forEach(cursor => {
                     if (score < 100) {
+                        // Komplett zufällige Positionen, schnelles Springen
                         cursor.style.left = Math.random() * window.innerWidth + 'px';
                         cursor.style.top = Math.random() * window.innerHeight + 'px';
+                        cursor.style.transition = 'all 0.1s ease-out';
                     }
                 });
-            }, 600);
+            }, 200); // Viel schneller! (war 600ms)
         }
 
         function removeFakeCursorsShooter() {
@@ -839,16 +886,47 @@
             setTimeout(() => img.style.transform = 'scale(1) rotate(0deg)', 100);
             
             if (reneClicks >= 50) {
-                startTerminal();
+                // Zeige Mittelfinger Fullscreen für 2 Sekunden
+                showMittelfingerFullscreen();
             }
+        }
+
+        function showMittelfingerFullscreen() {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,0.95);
+                z-index: 99999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            const img = document.createElement('img');
+            img.src = 'mittelfinger.jpeg';
+            img.style.cssText = `
+                max-width: 80%;
+                max-height: 80%;
+                border: 10px solid red;
+                box-shadow: 0 0 50px red;
+                animation: pulse 0.5s infinite;
+            `;
+            
+            overlay.appendChild(img);
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                overlay.remove();
+                startTerminal();
+            }, 2000);
         }
 
         const questions = [
             { q: "Wie groß ist Sophia?", a: ["1,74", "174", "1.74"], h: "Metrisch." },
             { q: "Was ist Sophias Lieblings-Trash-TV-Serie?", a: ["temptation"], h: "Versuchung..." },
-            { q: "Welche Haarfarbe hatte Sophia beim Kennenlernen?", a: ["lila", "violett", "purple"], h: "Nicht natürlich." },
-            { q: "PASSWORT TEIL 1: Sophias zweiter Name rückwärts", a: ["asereht", "theresa"], h: "6 Buchstaben. Beginnt mit A oder T." },
-            { q: "PASSWORT TEIL 2: Manuels Geburtstag (DD.MM.YYYY)", a: ["01.07.2005", "1.7.2005", "01072005"], h: "Das Datum im Sommer." }
+            { q: "Welche Haarfarbe hatte Sophia beim Kennenlernen?", a: ["lila", "violett", "purple"], h: "Nicht natürlich." }
         ];
         let qIdx = 0;
         const tContent = document.getElementById('terminal-content');
@@ -908,15 +986,59 @@
 
         function askQ() {
             if (qIdx >= questions.length) {
-                document.getElementById('terminal').style.display = 'none';
-                document.getElementById('final-message').style.display = 'flex';
+                // Nach 3 Fragen zum Passwort-Screen
+                setTimeout(() => {
+                    document.getElementById('terminal').style.display = 'none';
+                    document.getElementById('password-screen').style.display = 'flex';
+                    document.getElementById('password-input').focus();
+                }, 1000);
                 return;
             }
-            typeLine(`SICHERHEITSFRAGE ${qIdx+1}/5: ${questions[qIdx].q}`).then(()=>{
+            typeLine(`SICHERHEITSFRAGE ${qIdx+1}/3: ${questions[qIdx].q}`).then(()=>{
                 document.getElementById('prompt').style.display='inline';
                 tInput.value=''; tInput.focus();
             });
         }
+
+        // Passwort-Logik
+        function showPasswordHints() {
+            document.getElementById('password-hints').style.display = 'block';
+            document.getElementById('forgot-password-btn').style.display = 'none';
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('password-input').value.toLowerCase().replace(/\s/g, '');
+            const correctPasswords = [
+                'asereht01072005',
+                'theresa01072005',
+                'asereht1072005',
+                'theresa1072005'
+            ];
+            
+            if (correctPasswords.includes(input)) {
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('final-message').style.display = 'flex';
+            } else {
+                const errorMsg = document.getElementById('password-error');
+                errorMsg.style.display = 'block';
+                document.getElementById('password-input').value = '';
+                document.getElementById('password-input').style.borderColor = 'red';
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                    document.getElementById('password-input').style.borderColor = '#0f0';
+                }, 2000);
+            }
+        }
+
+        // Enter-Taste für Passwort
+        document.addEventListener('DOMContentLoaded', () => {
+            const pwInput = document.getElementById('password-input');
+            if (pwInput) {
+                pwInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') checkPassword();
+                });
+            }
+        });
 
         tInput.addEventListener('keypress', e => {
             if(e.key==='Enter'){
