@@ -12,25 +12,35 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Courier New', monospace;
             background: #1a1a1a;
             color: #333;
             overflow: hidden;
             transition: background 0.5s;
+            user-select: none; /* Text markieren verhindern für bessere Spiel-Experience */
         }
 
         /* ------------------------------------------- */
-        /* PHASE 0: FULLSCREEN OVERLAY */
+        /* MOBILE BLOCK */
+        /* ------------------------------------------- */
+        #mobile-block {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #ff0000; z-index: 100000;
+            flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+
+        /* ------------------------------------------- */
+        /* FULLSCREEN OVERLAY */
         /* ------------------------------------------- */
         #fullscreen-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; color: #fff;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             z-index: 20000; text-align: center; padding: 20px;
         }
-
         #fs-btn {
             margin-top: 30px; padding: 15px 30px; font-size: 1.5em;
             background: #27ae60; color: white; border: 2px solid #fff;
@@ -38,7 +48,7 @@
         }
 
         /* ------------------------------------------- */
-        /* PHASE 1: CHRISTMAS THEME */
+        /* XMAS THEME */
         /* ------------------------------------------- */
         #xmas-container {
             display: none;
@@ -47,24 +57,12 @@
             box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
             text-align: center; position: relative; z-index: 10;
             border: 4px solid #c0392b;
+            font-family: sans-serif;
         }
-
         body.xmas-bg {
             background: #2c3e50;
             background-image: radial-gradient(circle at 50% 50%, #2c3e50 0%, #000 100%);
         }
-
-        /* Schneefall (CSS Only) */
-        .snowflake {
-            color: #fff; font-size: 1em; position: fixed; top: -10%; z-index: 1;
-            animation-name: snowflakes-fall, snowflakes-shake;
-            animation-duration: 10s, 3s;
-            animation-timing-function: linear, ease-in-out;
-            animation-iteration-count: infinite, infinite;
-        }
-        @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
-        @keyframes snowflakes-shake { 0% { transform: translateX(0px); } 50% { transform: translateX(80px); } 100% { transform: translateX(0px); } }
-
         .xmas-btn {
             background: #c0392b; color: white; font-size: 1.5em;
             padding: 15px 40px; border: none; border-radius: 50px;
@@ -72,64 +70,54 @@
         }
 
         /* ------------------------------------------- */
-        /* PHASE 2: SCAM MODE (Demon Slayer) */
+        /* SCAM MODE */
         /* ------------------------------------------- */
         #scam-container {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 5000;
-            overflow-y: auto;
-            text-align: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5000; overflow-y: auto; text-align: center;
             font-family: 'Comic Sans MS', cursive;
         }
-
         body.scam-mode {
             background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
-            background-size: 400% 400%;
-            animation: gradientShift 2s ease infinite;
+            background-size: 400% 400%; animation: gradientShift 2s ease infinite;
         }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
         .scam-box {
             background: yellow; border: 5px solid red;
             max-width: 700px; margin: 50px auto; padding: 20px;
             transform: rotate(-1deg);
         }
-
         .scam-img {
             max-width: 100%; border: 5px solid #ff1493;
             box-shadow: 0 0 20px black; margin: 20px 0;
         }
 
-        .blink { animation: blinker 0.5s linear infinite; color: red; font-weight: bold; font-size: 1.5em; }
-        @keyframes blinker { 50% { opacity: 0; } }
-
         /* ------------------------------------------- */
-        /* PHASE 3: RICKROLL & MOVING BUTTON */
+        /* RICKROLL */
         /* ------------------------------------------- */
         #rickroll-section {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: black; z-index: 6000;
         }
         #rickroll-video { width: 100%; height: 100%; object-fit: cover; }
-        
         #moving-button {
             position: absolute; padding: 20px 40px;
             background: #ff00ff; color: white; font-weight: bold; font-size: 1.5em;
             border: 3px solid white; cursor: pointer; z-index: 6001;
-            white-space: nowrap; transition: all 0.3s ease; /* Weicher & langsamer */
+            white-space: nowrap; transition: all 0.3s ease;
             top: 50%; left: 50%; transform: translate(-50%, -50%);
         }
 
         /* ------------------------------------------- */
-        /* PHASE 4: VIRUS / HACKING */
+        /* VIRUS & GAMES SECTION */
         /* ------------------------------------------- */
         #virus-section {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; color: #ff0000; font-family: 'Courier New', monospace;
-            z-index: 7000; padding: 30px; text-align: center;
+            z-index: 7000; padding: 20px; text-align: center;
         }
-
+        .blink { animation: blinker 0.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
         .virus-red-bg { animation: redFlash 2s infinite; }
         @keyframes redFlash { 0%,100% {background:#000;} 50% {background:#300;} }
 
@@ -137,24 +125,50 @@
             width: 80%; height: 30px; background: #333; margin: 20px auto;
             border: 2px solid red;
         }
-        #progress-bar { width: 0%; height: 100%; background: red; }
+        #progress-bar { width: 0%; height: 100%; background: red; transition: width 0.1s; }
 
-        /* RÄTSEL INPUT */
-        #riddle-container {
-            display: none; margin-top: 30px; border: 2px solid yellow;
-            padding: 20px; background: rgba(20, 20, 0, 0.9);
+        /* --- GAME 1: HEIßER DRAHT (Maze) --- */
+        #wire-game-container {
+            display: none;
+            margin-top: 20px;
+            border: 4px solid yellow;
+            background: #111;
+            padding: 10px;
+            position: relative;
         }
-        #virus-input {
-            background: black; border: 1px solid lime; color: lime;
-            font-size: 1.5em; padding: 10px; font-family: monospace;
-            width: 300px; text-align: center; margin-top: 10px;
+        #wire-canvas {
+            background: #000;
+            border: 2px solid #333;
+            cursor: crosshair;
+            display: block;
+            margin: 0 auto;
         }
-        #riddle-btn {
-            background: red; color: white; border: none; padding: 10px 20px;
-            font-size: 1.2em; cursor: pointer; margin-left: 10px;
+        #wire-status { font-size: 1.5em; margin-bottom: 10px; color: yellow; }
+
+        /* --- GAME 2: SHOOTER --- */
+        #shooter-container {
+            display: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 8000;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        .target-bug {
+            position: absolute;
+            font-size: 3em;
+            cursor: pointer;
+            user-select: none;
+            animation: wobble 0.5s infinite;
+        }
+        @keyframes wobble { 0%,100%{transform:rotate(-10deg);} 50%{transform:rotate(10deg);} }
+        #score-board {
+            position: absolute; top: 20px; right: 20px;
+            font-size: 2em; color: lime; border: 2px solid lime; padding: 10px;
+            background: black;
         }
 
-        /* MASH BUTTON */
+        /* --- MASH BUTTON --- */
         #emergency-override {
             display: none; margin-top: 30px; border: 5px dashed yellow;
             padding: 20px; background: #220;
@@ -171,12 +185,12 @@
         #force-bar { width: 0%; height: 100%; background: yellow; }
 
         /* ------------------------------------------- */
-        /* PHASE 5: TERMINAL */
+        /* TERMINAL & END */
         /* ------------------------------------------- */
         #terminal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; color: #0f0; font-family: 'Courier New', monospace;
-            padding: 20px; overflow-y: auto; z-index: 8000; text-align: left;
+            padding: 20px; overflow-y: auto; z-index: 9000; text-align: left;
         }
         .terminal-line { margin: 5px 0; }
         #terminal-input {
@@ -185,55 +199,48 @@
             outline: none; width: 80%;
         }
 
-        /* ------------------------------------------- */
-        /* PHASE 6: FINAL */
-        /* ------------------------------------------- */
         #final-message {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white; justify-content: center; align-items: center;
-            flex-direction: column; text-align: center; z-index: 9000;
+            flex-direction: column; text-align: center; z-index: 10000;
         }
-
     </style>
 </head>
 <body class="xmas-bg">
 
-    <div id="fullscreen-overlay">
-        <h1>⚠️ WICHTIGER HINWEIS ⚠️</h1>
-        <p>Für das beste Erlebnis ist Vollbildmodus erforderlich.</p>
-        <p>Bitte drücke F11 oder klicke unten.</p>
-        <button id="fs-btn" onclick="enterFullscreen()">STARTEN</button>
+    <div id="mobile-block">
+        <h1>⚠️ ZUGRIFF VERWEIGERT ⚠️</h1>
+        <p style="font-size: 1.5em;">Fehler: Mobiles Gerät erkannt.</p>
+        <p style="margin-top: 20px;">Datenrettung nur über PC möglich.</p>
     </div>
 
-    <div class="snowflake" style="left: 10%">❄</div>
-    <div class="snowflake" style="left: 50%; animation-delay: 2s">❆</div>
-    <div class="snowflake" style="left: 80%; animation-delay: 4s">❅</div>
+    <div id="fullscreen-overlay">
+        <h1>⚠️ SYSTEM-HINWEIS ⚠️</h1>
+        <p>Vollbildmodus erforderlich.</p>
+        <button id="fs-btn" onclick="enterFullscreen()">STARTEN</button>
+    </div>
 
     <div id="xmas-container">
         <h1 style="color: #c0392b; font-size: 3em;">🎄 Frohe Weihnachten, Rene! 🎄</h1>
         <div style="background: #27ae60; padding: 30px; border-radius: 10px; color: white; margin-top: 20px; border: 2px dashed gold;">
-            <h2>Ein Geschenk vom Weihnachtsmann 🎅</h2>
-            <p style="font-size: 1.2em; margin: 20px 0;">
-                Komm näher... ich habe etwas Besonderes für dich hochgeladen.
-            </p>
-            <button class="xmas-btn" onclick="showScamPage()">🎁 GESCHENK AUSPACKEN</button>
+            <h2>Geschenk eingetroffen 🎅</h2>
+            <p style="font-size: 1.2em; margin: 20px 0;">Ein exklusiver Download steht bereit.</p>
+            <button class="xmas-btn" onclick="showScamPage()">🎁 JETZT AUSPACKEN</button>
         </div>
     </div>
 
     <div id="scam-container">
         <div style="background:red; color:yellow; font-size:2em; font-weight:bold;">
-            <marquee>$$$ WINNER WINNER CHICKEN DINNER $$$ FREE DOWNLOAD $$$</marquee>
+            <marquee>$$$ FREE DOWNLOAD $$$ NO VIRUS $$$ FREE MONEY $$$</marquee>
         </div>
         <div class="scam-box">
-            <h1>CONGRATULATIONS USER!!!</h1>
-            <p style="font-size: 1.5em;">YOU WON THE EXCLUSIVE<br>✨ DEMON SLAYER WAIFU COLLECTION ✨</p>
-            <p class="blink">CLICK BELOW TO CLAIM NOW!!!</p>
-            
-            <img src="https://i.pinimg.com/originals/fd/7d/db/fd7ddb0ee34750e1e4ede5308a51b6c2.jpg" class="scam-img" alt="Scam">
+            <h1>CONGRATULATIONS!!!</h1>
+            <p style="font-size: 1.5em;">YOU WON: <br>✨ DEMON SLAYER WAIFU COLLECTION ✨</p>
+            <img src="https://i.pinimg.com/originals/fd/7d/db/fd7ddb0ee34750e1e4ede5308a51b6c2.jpg" class="scam-img" alt="Scam" style="height: 300px; object-fit: contain;">
             <br>
-            <button onclick="startRickroll()" style="background: #00ff00; color: blue; font-size: 2em; font-weight: bold; border: 5px solid blue; padding: 20px; cursor: pointer; font-family: 'Comic Sans MS'; box-shadow: 10px 10px 0 black;">
-                ⬇️ DOWNLOAD NOW (100% SAFE) ⬇️
+            <button onclick="startRickroll()" style="background: #00ff00; color: blue; font-size: 2em; font-weight: bold; border: 5px solid blue; padding: 20px; cursor: pointer; box-shadow: 10px 10px 0 black;">
+                ⬇️ DOWNLOAD (100% SAFE) ⬇️
             </button>
         </div>
     </div>
@@ -248,38 +255,33 @@
     </div>
 
     <div id="virus-section">
-        <h1 style="font-size: 3em; margin-bottom: 20px;">⚠️ KRITISCHER FEHLER ⚠️</h1>
-        <div style="border: 4px solid red; padding: 20px; background: rgba(50,0,0,0.8);">
-            <h2 class="blink">PC NICHT AUSSCHALTEN! DATENVERLUST DROHT!</h2>
-            <h3 style="color: #ff5555; margin-top: 10px;">Lösche Steam-Bibliothek...</h3>
+        <h1 style="font-size: 2.5em; margin-bottom: 20px;">⚠️ KRITISCHER FEHLER ⚠️</h1>
+        <div style="border: 4px solid red; padding: 15px; background: rgba(50,0,0,0.8);">
+            <h2 class="blink">PC NICHT AUSSCHALTEN!</h2>
+            <h3 style="color: #ff5555;">Lösche Steam-Bibliothek...</h3>
         </div>
         
         <div id="progress-container">
             <div id="progress-bar"></div>
         </div>
-        <p id="virus-status">C:/Program Files/Steam/steamapps/common wird formatiert...</p>
+        <p id="virus-status">C:/Program Files/Steam/... wird formatiert</p>
 
-        <div id="riddle-container">
-            <h2 style="color: yellow;">SYSTEMÜBERHITZUNG - KÜHLUNG DEFEKT</h2>
-            <p style="margin: 10px 0; font-size: 1.2em;">
-                Um den Löschvorgang zu stoppen, gib den Objekt-Code ein.<br>
-                <strong>RÄTSEL:</strong><br>
-                "Ich habe vier Beine, kann aber nicht laufen.<br>
-                Ich habe einen Rücken, aber keine Wirbelsäule.<br>
-                Ich wärme dich und massiere dich, während du verlierst."
-            </p>
-            <input type="text" id="virus-input" placeholder="Was bin ich?" onkeypress="handleRiddleKey(event)">
-            <button id="riddle-btn" onclick="checkRiddle()">STOPP</button>
-            <p id="riddle-error" style="color: red; display: none; margin-top: 10px;">ZUGRIFF VERWEIGERT. FALSCHES OBJEKT.</p>
+        <div id="wire-game-container">
+            <p id="wire-status">⚠️ KÜHLSYSTEM REPARIEREN ⚠️<br><span style="font-size:0.6em">Führe die Maus über die graue Leitung zum blauen Ziel. Berühre NICHT ROT!</span></p>
+            <canvas id="wire-canvas" width="600" height="300"></canvas>
         </div>
 
         <div id="emergency-override">
-            <h2 style="color: yellow;">CODE AKZEPTIERT!</h2>
+            <h2 style="color: yellow;">VIREN BESEITIGT!</h2>
             <p>MANUELLER NEUSTART ERFORDERLICH.</p>
-            <p><strong>HÄMMERE DEN KNOPF!</strong></p>
-            <button id="mash-button" onclick="mashButton()">NOT-AUS<br>DRÜCKEN!</button>
+            <button id="mash-button" onclick="mashButton()">NOT-AUS<br>HÄMMERN!</button>
             <div id="force-bar-container"><div id="force-bar"></div></div>
         </div>
+    </div>
+
+    <div id="shooter-container">
+        <div id="score-board">VIREN: 0 / 100</div>
+        <h1 style="color: red; text-align: center; margin-top: 50px; pointer-events: none;">⚠️ FIREWALL AKTIVIEREN ⚠️<br>KLICKE DIE VIREN AN!</h1>
     </div>
 
     <div id="terminal">
@@ -289,8 +291,7 @@
 
     <div id="final-message">
         <h1>✅ SYSTEM WIEDERHERGESTELLT</h1>
-        <p style="font-size: 1.5em; margin: 20px;">Die Steam-Bibliothek ist sicher.</p>
-        <p>Du hast es dir wirklich verdient.</p>
+        <p style="font-size: 1.5em; margin: 20px;">Steam-Bibliothek gerettet.</p>
         <div style="border: 2px solid white; padding: 30px; margin-top: 30px; border-radius: 10px; background: rgba(255,255,255,0.1);">
             <h2>🎁 DEIN GESCHENK 🎁</h2>
             <p style="font-size: 2em; font-weight: bold; margin-top: 20px; animation: pulse 1s infinite;">
@@ -300,15 +301,25 @@
     </div>
 
     <script>
-        // --- 0. START ---
+        // --- 0. MOBILE & INIT ---
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        window.onload = () => {
+            if (isMobile()) {
+                document.getElementById('mobile-block').style.display = 'flex';
+                document.getElementById('fullscreen-overlay').style.display = 'none';
+            }
+        };
+
         function enterFullscreen() {
             const elem = document.documentElement;
-            if (elem.requestFullscreen) elem.requestFullscreen().catch(err => console.log(err));
+            if (elem.requestFullscreen) elem.requestFullscreen().catch(e=>console.log(e));
             document.getElementById('fullscreen-overlay').style.display = 'none';
             document.getElementById('xmas-container').style.display = 'block';
         }
 
-        // --- 1. XMAS -> SCAM ---
+        // --- 1. FLOW CONTROL ---
         function showScamPage() {
             document.getElementById('xmas-container').style.display = 'none';
             document.body.classList.remove('xmas-bg');
@@ -316,148 +327,232 @@
             document.getElementById('scam-container').style.display = 'block';
         }
 
-        // --- 2. SCAM -> RICKROLL ---
-        let btnInterval;
         let isBtnClickable = false;
-
+        let btnInterval;
+        
         function startRickroll() {
             document.getElementById('scam-container').style.display = 'none';
             document.getElementById('rickroll-section').style.display = 'block';
             
-            const video = document.getElementById('rickroll-video');
-            video.muted = false;
-            video.play().catch(() => { video.muted = true; video.play(); });
+            const v = document.getElementById('rickroll-video');
+            v.muted = false; v.play().catch(()=>{v.muted=true;v.play()});
+
+            setTimeout(() => { isBtnClickable = true; }, 10000);
 
             const btn = document.getElementById('moving-button');
-            
-            // 10 Sekunden warten bis klickbar (aber Button bewegt sich schon)
-            setTimeout(() => {
-                isBtnClickable = true;
-                // Visuell keine Änderung gefordert ("Soll nicht gesperrt dran stehen")
-            }, 10000);
-
-            // Bewegung starten (Langsamer: alle 400ms statt 50ms)
             btnInterval = setInterval(() => {
-                // Button bewegt sich immer weiter, auch nach den 10s
-                const maxX = window.innerWidth - 200;
-                const maxY = window.innerHeight - 80;
-                
-                const newX = Math.random() * maxX;
-                const newY = Math.random() * maxY;
-                
-                btn.style.left = newX + 'px';
-                btn.style.top = newY + 'px';
-                btn.style.transform = 'none'; // Zentrierung aufheben für absolute pos
-            }, 400); 
+                const maxX = window.innerWidth - 200, maxY = window.innerHeight - 80;
+                btn.style.left = (Math.random()*maxX)+'px';
+                btn.style.top = (Math.random()*maxY)+'px';
+                btn.style.transform = 'none';
+            }, 400);
         }
 
         function triggerVirusClick() {
-            if (!isBtnClickable) return; // Tut nichts in den ersten 10s
-            
+            if (!isBtnClickable) return;
             clearInterval(btnInterval);
             document.getElementById('rickroll-video').pause();
             document.getElementById('rickroll-section').style.display = 'none';
-            
             triggerVirus();
         }
 
-        // --- 3. VIRUS & RÄTSEL ---
+        // --- 2. VIRUS LOGIC ---
         function triggerVirus() {
             document.body.classList.remove('scam-mode');
-            document.getElementById('virus-section').classList.add('virus-red-bg');
-            document.getElementById('virus-section').style.display = 'block';
+            const vs = document.getElementById('virus-section');
+            vs.classList.add('virus-red-bg');
+            vs.style.display = 'block';
             
-            runProgress();
-        }
-
-        function runProgress() {
+            // Progress Bar
+            let w = 0;
             const bar = document.getElementById('progress-bar');
-            let width = 0;
-            const interval = setInterval(() => {
-                if (width >= 87) {
-                    clearInterval(interval);
-                    // STOP & ZEIGE RÄTSEL
-                    document.getElementById('virus-status').textContent = "SYSTEMÜBERHITZUNG! KÜHLUNG ERFORDERLICH!";
-                    document.getElementById('virus-status').classList.add('blink');
-                    document.getElementById('riddle-container').style.display = 'block';
-                    createPopup("WARNUNG: CPU TEMP 99°C");
-                    createPopup("WARNUNG: GPU MELTDOWN");
+            const int = setInterval(() => {
+                if (w >= 87) {
+                    clearInterval(int);
+                    document.getElementById('virus-status').textContent = "FEHLER! MANUELLES EINGREIFEN ERFORDERLICH!";
+                    createPopup("KÜHLUNG DEFEKT");
+                    startWireGame();
                 } else {
-                    width += 0.5;
-                    bar.style.width = width + '%';
-                    if(Math.floor(width) % 10 === 0) createPopup("LÖSCHE DATEIEN...");
+                    w += 0.5; bar.style.width = w+'%';
+                    if(Math.floor(w)%10===0) createPopup("LÖSCHE DATEN...");
                 }
-            }, 100);
+            }, 80);
         }
 
         function createPopup(text) {
-            const pop = document.createElement('div');
-            pop.style.position = 'fixed';
-            pop.style.left = Math.random() * 80 + '%';
-            pop.style.top = Math.random() * 80 + '%';
-            pop.style.background = 'white';
-            pop.style.border = '2px solid red';
-            pop.style.padding = '5px';
-            pop.style.zIndex = 7500;
-            pop.style.color = 'black';
-            pop.style.fontWeight = 'bold';
-            pop.innerText = text;
-            document.body.appendChild(pop);
-            setTimeout(() => pop.remove(), 1500);
+            const p = document.createElement('div');
+            p.style.cssText = `position:fixed; left:${Math.random()*80}%; top:${Math.random()*80}%; background:white; border:2px solid red; padding:5px; z-index:7500; font-weight:bold; color:black;`;
+            p.innerText = text;
+            document.body.appendChild(p);
+            setTimeout(()=>p.remove(), 1500);
         }
 
-        // RÄTSEL LOGIK
-        function handleRiddleKey(e) {
-            if (e.key === 'Enter') checkRiddle();
-        }
-
-        function checkRiddle() {
-            const val = document.getElementById('virus-input').value.toLowerCase();
-            const valid = ["stuhl", "sessel", "chair", "gaming stuhl", "gamingstuhl", "gaming-stuhl"];
+        // --- 3. GAME 1: WIRE GAME (CANVAS) ---
+        let canvas, ctx, isPlayingWire = false;
+        
+        function startWireGame() {
+            document.getElementById('wire-game-container').style.display = 'block';
+            canvas = document.getElementById('wire-canvas');
+            ctx = canvas.getContext('2d');
+            drawWireLevel();
             
-            if (valid.some(v => val.includes(v))) {
-                // Correct
-                document.getElementById('riddle-container').style.display = 'none';
-                document.getElementById('emergency-override').style.display = 'block';
+            canvas.addEventListener('mousemove', handleWireMove);
+            isPlayingWire = true;
+        }
+
+        function drawWireLevel() {
+            // Hintergrund (Lava)
+            ctx.fillStyle = "#500"; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Der Pfad (Sicher)
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = 40; // Breite des Pfads
+            ctx.strokeStyle = "#888"; // Farbe des Pfads
+
+            ctx.beginPath();
+            ctx.moveTo(30, 150);
+            ctx.lineTo(100, 150);
+            ctx.lineTo(100, 50);
+            ctx.lineTo(250, 50);
+            ctx.lineTo(250, 250);
+            ctx.lineTo(400, 250);
+            ctx.lineTo(400, 100);
+            ctx.lineTo(550, 100);
+            ctx.stroke();
+
+            // Startzone
+            ctx.fillStyle = "#0f0";
+            ctx.beginPath(); ctx.arc(30, 150, 20, 0, Math.PI*2); ctx.fill();
+
+            // Zielzone
+            ctx.fillStyle = "#00f";
+            ctx.beginPath(); ctx.arc(550, 100, 20, 0, Math.PI*2); ctx.fill();
+        }
+
+        function handleWireMove(e) {
+            if (!isPlayingWire) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Pixel Check
+            const pixel = ctx.getImageData(x, y, 1, 1).data;
+            // R, G, B. Hintergrund ist rot-ish (R=85, G=0, B=0)
+            
+            // Wenn wir den roten Hintergrund berühren (Rot > Grün und Rot > Blau)
+            // Pfad ist Grau (136,136,136), Start Grün (0,255,0), Ziel Blau (0,0,255)
+            
+            // Einfache Logik: Wenn Pixel viel Rot hat und wenig Grün/Blau -> TOT
+            // Grau: R=136. Dunkelrot: R=85. 
+            // Wir prüfen einfach ob es NICHT sicher ist.
+            // Sicher = Grün (Start), Blau (Ziel) oder Grau (Pfad).
+            
+            const isRed = pixel[0] > 50 && pixel[1] < 50 && pixel[2] < 50;
+
+            if (isRed) {
+                // FAIL
+                document.getElementById('wire-status').innerText = "⚡ ZAP! NEUSTART! ⚡";
+                document.getElementById('wire-status').style.color = "red";
+                // Reset Mouse visual (Shake screen)
+                document.body.style.transform = "translate(5px, 5px)";
+                setTimeout(()=>document.body.style.transform="none", 100);
+            } else if (pixel[2] > 200 && pixel[0] < 50) {
+                // BLUE = WIN
+                isPlayingWire = false;
+                canvas.removeEventListener('mousemove', handleWireMove);
+                document.getElementById('wire-game-container').style.display = 'none';
+                startShooterGame();
             } else {
-                // Wrong
-                document.getElementById('riddle-error').style.display = 'block';
-                createPopup("FALSCHES PASSWORT");
+                document.getElementById('wire-status').innerText = "⚠️ KÜHLSYSTEM REPARIEREN ⚠️";
+                document.getElementById('wire-status').style.color = "yellow";
             }
         }
 
-        // MASH BUTTON LOGIK
-        let mashCount = 0;
-        const mashTarget = 15;
+        // --- 4. GAME 2: SHOOTER ---
+        let score = 0;
+        let shooterInterval;
         
+        function startShooterGame() {
+            document.getElementById('shooter-container').style.display = 'block';
+            shooterInterval = setInterval(spawnBug, 400); // Alle 400ms ein neuer Bug
+        }
+
+        function spawnBug() {
+            if (score >= 100) return;
+            
+            const bug = document.createElement('div');
+            bug.classList.add('target-bug');
+            bug.innerText = ['🦠', '🐛', '🕷️', '🦂'][Math.floor(Math.random()*4)];
+            
+            const startY = Math.random() * (window.innerHeight - 100);
+            bug.style.top = startY + 'px';
+            bug.style.left = '-50px';
+            
+            // Bewegung
+            let posX = -50;
+            const speed = 3 + Math.random() * 5;
+            
+            const moveInt = setInterval(() => {
+                posX += speed;
+                bug.style.left = posX + 'px';
+                if (posX > window.innerWidth) {
+                    clearInterval(moveInt);
+                    if(bug.parentNode) bug.remove();
+                }
+            }, 20);
+
+            // Klick Event
+            bug.onmousedown = () => {
+                score += 10; // 10 Punkte pro Treffer
+                document.getElementById('score-board').innerText = `VIREN: ${score} / 100`;
+                bug.innerText = "💥";
+                clearInterval(moveInt);
+                setTimeout(() => bug.remove(), 200);
+                
+                if (score >= 100) {
+                    endShooterGame();
+                }
+            };
+
+            document.getElementById('shooter-container').appendChild(bug);
+        }
+
+        function endShooterGame() {
+            clearInterval(shooterInterval);
+            // Alle Bugs entfernen
+            document.getElementById('shooter-container').innerHTML = ''; 
+            document.getElementById('shooter-container').style.display = 'none';
+            
+            // Zeige Not-Aus
+            document.getElementById('emergency-override').style.display = 'block';
+        }
+
+
+        // --- 5. MASH BUTTON & TERMINAL ---
+        let mashCount = 0;
         function mashButton() {
             mashCount++;
-            const pct = (mashCount / mashTarget) * 100;
-            document.getElementById('force-bar').style.width = pct + '%';
-            
-            // Wackel Effekt
+            document.getElementById('force-bar').style.width = (mashCount/15)*100 + '%';
             const btn = document.getElementById('mash-button');
             btn.style.transform = `translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px)`;
 
-            if (mashCount >= mashTarget) {
+            if (mashCount >= 15) {
                 startTerminal();
             }
         }
-        
-        // Decay
         setInterval(() => {
-            if (mashCount > 0 && mashCount < mashTarget) {
+            if (mashCount > 0 && mashCount < 15) {
                 mashCount -= 0.5;
-                document.getElementById('force-bar').style.width = (mashCount/mashTarget)*100 + '%';
+                document.getElementById('force-bar').style.width = (mashCount/15)*100 + '%';
             }
         }, 200);
 
-
-        // --- 4. TERMINAL ---
         const questions = [
-            { q: "Wie groß ist Sophia?", a: ["1,74", "174", "1.74"], h: "Metrisches System." },
+            { q: "Wie groß ist Sophia?", a: ["1,74", "174", "1.74"], h: "Metrisch." },
             { q: "Was ist Sophias Lieblings-Trash-TV-Serie?", a: ["temptation"], h: "Versuchung..." },
-            { q: "Welche Haarfarbe hatte Sophia, als ihr euch traft?", a: ["lila", "violett", "purple"], h: "Nicht blond, nicht braun." }
+            { q: "Welche Haarfarbe hatte Sophia beim Kennenlernen?", a: ["lila", "violett", "purple"], h: "Nicht natürlich." }
         ];
         let qIdx = 0;
         const tContent = document.getElementById('terminal-content');
@@ -465,27 +560,23 @@
 
         async function startTerminal() {
             document.getElementById('virus-section').style.display = 'none';
-            document.querySelectorAll('div[style*="zIndex = 7500"]').forEach(e => e.remove());
+            document.querySelectorAll('div[style*="z-index:7500"]').forEach(e=>e.remove());
             document.getElementById('terminal').style.display = 'block';
             
             await typeLine("REBOOT SYSTEM...");
-            await new Promise(r => setTimeout(r, 500));
-            await typeLine("STEAM DATEN... GERETTET.");
-            await typeLine("STARTE IDENTITÄTSPRÜFUNG.");
+            await typeLine("DATENINTEGRITÄT... OK.");
+            await typeLine("STEAM... GERETTET.");
             await typeLine("");
             askQ();
         }
 
-        function typeLine(text) {
-            return new Promise(resolve => {
-                const div = document.createElement('div');
-                div.className = 'terminal-line';
-                tContent.appendChild(div);
-                let i = 0;
-                const int = setInterval(() => {
-                    if (i < text.length) { div.textContent += text[i]; i++; }
-                    else { clearInterval(int); resolve(); }
-                }, 20);
+        function typeLine(txt) {
+            return new Promise(r => {
+                const d = document.createElement('div');
+                d.className = 'terminal-line'; tContent.appendChild(d);
+                let i=0; const t = setInterval(()=>{
+                    if(i<txt.length){d.textContent+=txt[i];i++}else{clearInterval(t);r()}
+                },20);
             });
         }
 
@@ -495,23 +586,22 @@
                 document.getElementById('final-message').style.display = 'flex';
                 return;
             }
-            typeLine(`FRAGE ${qIdx+1}: ${questions[qIdx].q}`).then(() => {
-                document.getElementById('prompt').style.display = 'inline';
-                tInput.value = ''; tInput.focus();
+            typeLine(`FRAGE ${qIdx+1}: ${questions[qIdx].q}`).then(()=>{
+                document.getElementById('prompt').style.display='inline';
+                tInput.value=''; tInput.focus();
             });
         }
 
-        tInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const val = tInput.value.trim().toLowerCase();
+        tInput.addEventListener('keypress', e => {
+            if(e.key==='Enter'){
+                const v = tInput.value.toLowerCase();
                 const q = questions[qIdx];
-                document.getElementById('prompt').style.display = 'none';
+                document.getElementById('prompt').style.display='none';
                 typeLine(`> ${tInput.value}`);
-                
-                if (q.a.some(ans => val.includes(ans))) {
-                    typeLine("KORREKT.").then(() => { qIdx++; setTimeout(askQ, 500); });
+                if(q.a.some(x=>v.includes(x))) {
+                    typeLine("KORREKT.").then(()=>{qIdx++;setTimeout(askQ,500)});
                 } else {
-                    typeLine(`FALSCH. TIPP: ${q.h}`).then(() => { setTimeout(askQ, 1000); });
+                    typeLine(`FALSCH. TIPP: ${q.h}`).then(()=>setTimeout(askQ,1000));
                 }
             }
         });
