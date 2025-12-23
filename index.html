@@ -15,7 +15,8 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #1a1a1a;
             color: #333;
-            overflow: hidden; /* Scrollen verhindern */
+            overflow: hidden;
+            transition: background 0.5s;
         }
 
         /* ------------------------------------------- */
@@ -23,47 +24,28 @@
         /* ------------------------------------------- */
         #fullscreen-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 20000;
-            text-align: center;
-            padding: 20px;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #fff;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 20000; text-align: center; padding: 20px;
         }
 
         #fs-btn {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1.5em;
-            background: #27ae60;
-            color: white;
-            border: 2px solid #fff;
-            cursor: pointer;
-            border-radius: 5px;
-            animation: pulse 2s infinite;
+            margin-top: 30px; padding: 15px 30px; font-size: 1.5em;
+            background: #27ae60; color: white; border: 2px solid #fff;
+            cursor: pointer; border-radius: 5px; animation: pulse 2s infinite;
         }
 
         /* ------------------------------------------- */
         /* PHASE 1: CHRISTMAS THEME */
         /* ------------------------------------------- */
         #xmas-container {
-            display: none; /* Initial versteckt */
-            max-width: 800px;
-            margin: 60px auto;
-            padding: 40px;
-            background: #fff;
-            border-radius: 15px;
+            display: none;
+            max-width: 800px; margin: 60px auto; padding: 40px;
+            background: #fff; border-radius: 15px;
             box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
-            text-align: center;
-            position: relative;
-            z-index: 10;
+            text-align: center; position: relative; z-index: 10;
             border: 4px solid #c0392b;
         }
 
@@ -72,248 +54,145 @@
             background-image: radial-gradient(circle at 50% 50%, #2c3e50 0%, #000 100%);
         }
 
-        /* Schneefall Animation (simpel) */
+        /* Schneefall (CSS Only) */
         .snowflake {
-            color: #fff;
-            font-size: 1em;
-            font-family: Arial;
-            text-shadow: 0 0 1px #000;
-            position: fixed;
-            top: -10%;
-            z-index: 1;
-            user-select: none;
-            cursor: default;
+            color: #fff; font-size: 1em; position: fixed; top: -10%; z-index: 1;
             animation-name: snowflakes-fall, snowflakes-shake;
             animation-duration: 10s, 3s;
             animation-timing-function: linear, ease-in-out;
             animation-iteration-count: infinite, infinite;
-            animation-play-state: running, running;
         }
         @keyframes snowflakes-fall { 0% { top: -10%; } 100% { top: 100%; } }
         @keyframes snowflakes-shake { 0% { transform: translateX(0px); } 50% { transform: translateX(80px); } 100% { transform: translateX(0px); } }
 
-        h1.xmas-title {
-            font-family: 'Mountains of Christmas', serif; /* Fallback serif */
-            color: #c0392b;
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .xmas-box {
-            background: #27ae60;
-            padding: 30px;
-            border-radius: 10px;
-            color: white;
-            border: 2px dashed #f1c40f;
-        }
-
         .xmas-btn {
-            background: #c0392b;
-            color: white;
-            font-size: 1.5em;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 5px 0 #922b21;
-            transition: transform 0.1s;
-        }
-        .xmas-btn:active {
-            transform: translateY(5px);
-            box-shadow: none;
+            background: #c0392b; color: white; font-size: 1.5em;
+            padding: 15px 40px; border: none; border-radius: 50px;
+            cursor: pointer; margin-top: 20px; box-shadow: 0 5px 0 #922b21;
         }
 
         /* ------------------------------------------- */
-        /* PHASE 2: SCAM MODE (Transformation) */
+        /* PHASE 2: SCAM MODE (Demon Slayer) */
         /* ------------------------------------------- */
-        body.scam-mode {
-            animation: rainbow-bg 0.5s infinite;
-        }
-        @keyframes rainbow-bg {
-            0% { background: red; }
-            20% { background: yellow; }
-            40% { background: lime; }
-            60% { background: cyan; }
-            80% { background: blue; }
-            100% { background: magenta; }
-        }
-
-        #scam-overlay {
+        #scam-container {
             display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 5000;
-            pointer-events: none;
-        }
-        
-        .scam-popup {
-            position: absolute;
-            background: white;
-            border: 3px solid blue;
-            padding: 10px;
-            font-family: 'Comic Sans MS', sans-serif;
-            box-shadow: 5px 5px 0 rgba(0,0,0,0.5);
+            overflow-y: auto;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive;
         }
 
+        body.scam-mode {
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+            background-size: 400% 400%;
+            animation: gradientShift 2s ease infinite;
+        }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .scam-box {
+            background: yellow; border: 5px solid red;
+            max-width: 700px; margin: 50px auto; padding: 20px;
+            transform: rotate(-1deg);
+        }
+
+        .scam-img {
+            max-width: 100%; border: 5px solid #ff1493;
+            box-shadow: 0 0 20px black; margin: 20px 0;
+        }
+
+        .blink { animation: blinker 0.5s linear infinite; color: red; font-weight: bold; font-size: 1.5em; }
+        @keyframes blinker { 50% { opacity: 0; } }
+
         /* ------------------------------------------- */
-        /* PHASE 2b: RICKROLL & CRAZY BUTTON */
+        /* PHASE 3: RICKROLL & MOVING BUTTON */
         /* ------------------------------------------- */
         #rickroll-section {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: black;
-            z-index: 6000;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 6000;
         }
-        #rickroll-video {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        #crazy-button {
-            position: absolute;
-            padding: 20px;
-            background: #ff00ff;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2em;
-            border: 3px solid white;
-            cursor: pointer;
-            z-index: 6001;
-            white-space: nowrap;
-            transition: all 0.05s ease; /* Extrem schnell */
-        }
-        #crazy-button.locked {
-            opacity: 0.7;
-            cursor: not-allowed;
-            background: #555;
+        #rickroll-video { width: 100%; height: 100%; object-fit: cover; }
+        
+        #moving-button {
+            position: absolute; padding: 20px 40px;
+            background: #ff00ff; color: white; font-weight: bold; font-size: 1.5em;
+            border: 3px solid white; cursor: pointer; z-index: 6001;
+            white-space: nowrap; transition: all 0.3s ease; /* Weicher & langsamer */
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
         }
 
         /* ------------------------------------------- */
-        /* PHASE 3: VIRUS / HACKING (Red Screen) */
+        /* PHASE 4: VIRUS / HACKING */
         /* ------------------------------------------- */
         #virus-section {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            color: #ff0000;
-            font-family: 'Courier New', monospace;
-            z-index: 7000;
-            padding: 50px;
-            text-align: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #ff0000; font-family: 'Courier New', monospace;
+            z-index: 7000; padding: 30px; text-align: center;
         }
 
-        .blink-red {
-            animation: blinkRed 0.5s infinite;
-        }
-        @keyframes blinkRed {
-            0%, 100% { background: #000; color: #f00; }
-            50% { background: #300; color: #fff; }
-        }
-
-        .warning-box {
-            border: 4px solid red;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            background: rgba(255, 0, 0, 0.1);
-        }
+        .virus-red-bg { animation: redFlash 2s infinite; }
+        @keyframes redFlash { 0%,100% {background:#000;} 50% {background:#300;} }
 
         #progress-container {
-            width: 80%;
-            height: 30px;
-            background: #333;
-            margin: 20px auto;
+            width: 80%; height: 30px; background: #333; margin: 20px auto;
             border: 2px solid red;
-            position: relative;
+        }
+        #progress-bar { width: 0%; height: 100%; background: red; }
+
+        /* RÄTSEL INPUT */
+        #riddle-container {
+            display: none; margin-top: 30px; border: 2px solid yellow;
+            padding: 20px; background: rgba(20, 20, 0, 0.9);
+        }
+        #virus-input {
+            background: black; border: 1px solid lime; color: lime;
+            font-size: 1.5em; padding: 10px; font-family: monospace;
+            width: 300px; text-align: center; margin-top: 10px;
+        }
+        #riddle-btn {
+            background: red; color: white; border: none; padding: 10px 20px;
+            font-size: 1.2em; cursor: pointer; margin-left: 10px;
         }
 
-        #progress-bar {
-            width: 0%;
-            height: 100%;
-            background: red;
-            transition: width 0.2s;
-        }
-
-        /* Das Not-Aus Puzzle */
+        /* MASH BUTTON */
         #emergency-override {
-            display: none;
-            margin-top: 30px;
-            border: 5px dashed yellow;
-            padding: 20px;
-            background: #220;
+            display: none; margin-top: 30px; border: 5px dashed yellow;
+            padding: 20px; background: #220;
         }
-
         #mash-button {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
+            width: 180px; height: 180px; border-radius: 50%;
             background: radial-gradient(circle, #ff5555 0%, #990000 100%);
-            border: 5px solid #fff;
-            color: white;
-            font-size: 1.5em;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 20px red;
-            margin: 20px;
+            border: 5px solid #fff; color: white; font-size: 1.3em;
+            font-weight: bold; cursor: pointer; box-shadow: 0 0 20px red;
             transition: transform 0.05s;
         }
-        #mash-button:active {
-            transform: scale(0.95);
-        }
-
-        #force-bar-container {
-            width: 50%;
-            height: 20px;
-            background: #333;
-            margin: 10px auto;
-        }
-        #force-bar {
-            width: 0%;
-            height: 100%;
-            background: yellow;
-        }
+        #mash-button:active { transform: scale(0.95); }
+        #force-bar-container { width: 50%; height: 15px; background: #333; margin: 10px auto; }
+        #force-bar { width: 0%; height: 100%; background: yellow; }
 
         /* ------------------------------------------- */
-        /* PHASE 4: TERMINAL */
+        /* PHASE 5: TERMINAL */
         /* ------------------------------------------- */
         #terminal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            padding: 20px;
-            overflow-y: auto;
-            z-index: 8000;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #0f0; font-family: 'Courier New', monospace;
+            padding: 20px; overflow-y: auto; z-index: 8000; text-align: left;
         }
         .terminal-line { margin: 5px 0; }
         #terminal-input {
-            background: transparent;
-            border: none;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            font-size: 1.2em;
-            outline: none;
-            width: 80%;
+            background: transparent; border: none; color: #0f0;
+            font-family: 'Courier New', monospace; font-size: 1.2em;
+            outline: none; width: 80%;
         }
 
         /* ------------------------------------------- */
-        /* PHASE 5: SUCCESS */
+        /* PHASE 6: FINAL */
         /* ------------------------------------------- */
         #final-message {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            z-index: 9000;
+            color: white; justify-content: center; align-items: center;
+            flex-direction: column; text-align: center; z-index: 9000;
         }
 
     </style>
@@ -321,31 +200,41 @@
 <body class="xmas-bg">
 
     <div id="fullscreen-overlay">
-        <h1>⚠️ SICHERHEITSHINWEIS ⚠️</h1>
-        <p>Diese interaktive Erfahrung erfordert Vollbildmodus.</p>
-        <p>Bitte drücke <strong>F11</strong> auf deiner Tastatur</p>
-        <p>ODER</p>
-        <button id="fs-btn" onclick="enterFullscreen()">HIER KLICKEN ZUM STARTEN</button>
+        <h1>⚠️ WICHTIGER HINWEIS ⚠️</h1>
+        <p>Für das beste Erlebnis ist Vollbildmodus erforderlich.</p>
+        <p>Bitte drücke F11 oder klicke unten.</p>
+        <button id="fs-btn" onclick="enterFullscreen()">STARTEN</button>
     </div>
 
     <div class="snowflake" style="left: 10%">❄</div>
-    <div class="snowflake" style="left: 20%; animation-delay: 2s">❅</div>
-    <div class="snowflake" style="left: 50%; animation-delay: 4s">❆</div>
-    <div class="snowflake" style="left: 70%; animation-delay: 1s">❄</div>
-    <div class="snowflake" style="left: 90%; animation-delay: 3s">❅</div>
+    <div class="snowflake" style="left: 50%; animation-delay: 2s">❆</div>
+    <div class="snowflake" style="left: 80%; animation-delay: 4s">❅</div>
 
     <div id="xmas-container">
-        <h1 class="xmas-title">🎄 Frohe Weihnachten, Rene! 🎄</h1>
-        <div class="xmas-box">
-            <h2>Ho Ho Ho! 🎅</h2>
+        <h1 style="color: #c0392b; font-size: 3em;">🎄 Frohe Weihnachten, Rene! 🎄</h1>
+        <div style="background: #27ae60; padding: 30px; border-radius: 10px; color: white; margin-top: 20px; border: 2px dashed gold;">
+            <h2>Ein Geschenk vom Weihnachtsmann 🎅</h2>
             <p style="font-size: 1.2em; margin: 20px 0;">
-                Da du dieses Jahr besonders artig warst (meistens),<br>
-                hat der Weihnachtsmann ein <strong>digitales Geschenk</strong> für dich hinterlegt.
+                Komm näher... ich habe etwas Besonderes für dich hochgeladen.
             </p>
-            <p>Es ist kein Socken-Set und auch kein Duschgel.</p>
-            <p>Bist du bereit, es auszupacken?</p>
+            <button class="xmas-btn" onclick="showScamPage()">🎁 GESCHENK AUSPACKEN</button>
+        </div>
+    </div>
+
+    <div id="scam-container">
+        <div style="background:red; color:yellow; font-size:2em; font-weight:bold;">
+            <marquee>$$$ WINNER WINNER CHICKEN DINNER $$$ FREE DOWNLOAD $$$</marquee>
+        </div>
+        <div class="scam-box">
+            <h1>CONGRATULATIONS USER!!!</h1>
+            <p style="font-size: 1.5em;">YOU WON THE EXCLUSIVE<br>✨ DEMON SLAYER WAIFU COLLECTION ✨</p>
+            <p class="blink">CLICK BELOW TO CLAIM NOW!!!</p>
             
-            <button class="xmas-btn" onclick="triggerScam()">🎁 GESCHENK ÖFFNEN</button>
+            <img src="https://i.pinimg.com/originals/fd/7d/db/fd7ddb0ee34750e1e4ede5308a51b6c2.jpg" class="scam-img" alt="Scam">
+            <br>
+            <button onclick="startRickroll()" style="background: #00ff00; color: blue; font-size: 2em; font-weight: bold; border: 5px solid blue; padding: 20px; cursor: pointer; font-family: 'Comic Sans MS'; box-shadow: 10px 10px 0 black;">
+                ⬇️ DOWNLOAD NOW (100% SAFE) ⬇️
+            </button>
         </div>
     </div>
 
@@ -353,39 +242,43 @@
         <video id="rickroll-video" loop>
             <source src="rickroll.mp4" type="video/mp4">
         </video>
-        <div id="scam-overlay"></div>
-        
-        <button id="crazy-button" class="locked" onclick="triggerVirus()">
-            ⏳ LADEN... (20s)
+        <button id="moving-button" onclick="triggerVirusClick()">
+            WEITER ZUM GESCHENK
         </button>
     </div>
 
     <div id="virus-section">
-        <h1 style="font-size: 3em;">⚠️ KRITISCHER SYSTEMFEHLER ⚠️</h1>
-        <div class="warning-box">
-            <h2 class="blink-red">SCHALTE DEINEN PC AUF KEINEN FALL AUS!</h2>
-            <h3 style="margin-top: 10px;">DATENVERLUST DROHT BEI STROMAUSFALL</h3>
+        <h1 style="font-size: 3em; margin-bottom: 20px;">⚠️ KRITISCHER FEHLER ⚠️</h1>
+        <div style="border: 4px solid red; padding: 20px; background: rgba(50,0,0,0.8);">
+            <h2 class="blink">PC NICHT AUSSCHALTEN! DATENVERLUST DROHT!</h2>
+            <h3 style="color: #ff5555; margin-top: 10px;">Lösche Steam-Bibliothek...</h3>
         </div>
         
-        <div style="text-align: left; margin-top: 40px; font-size: 1.2em;">
-            <p id="status-text">Starte Systembereinigung...</p>
-            <div id="progress-container">
-                <div id="progress-bar"></div>
-            </div>
-            <p id="detail-text" style="color: #f00; font-weight: bold; margin-top: 10px;"></p>
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <p id="virus-status">C:/Program Files/Steam/steamapps/common wird formatiert...</p>
+
+        <div id="riddle-container">
+            <h2 style="color: yellow;">SYSTEMÜBERHITZUNG - KÜHLUNG DEFEKT</h2>
+            <p style="margin: 10px 0; font-size: 1.2em;">
+                Um den Löschvorgang zu stoppen, gib den Objekt-Code ein.<br>
+                <strong>RÄTSEL:</strong><br>
+                "Ich habe vier Beine, kann aber nicht laufen.<br>
+                Ich habe einen Rücken, aber keine Wirbelsäule.<br>
+                Ich wärme dich und massiere dich, während du verlierst."
+            </p>
+            <input type="text" id="virus-input" placeholder="Was bin ich?" onkeypress="handleRiddleKey(event)">
+            <button id="riddle-btn" onclick="checkRiddle()">STOPP</button>
+            <p id="riddle-error" style="color: red; display: none; margin-top: 10px;">ZUGRIFF VERWEIGERT. FALSCHES OBJEKT.</p>
         </div>
 
         <div id="emergency-override">
-            <h2 style="color: yellow;">⚠️ FEHLER: AUTOMATISCHER ABBRUCH HÄNGT ⚠️</h2>
-            <p>KÜHLSYSTEM ÜBERLASTET. MANUELLE KÜHLUNG ERFORDERLICH.</p>
-            <p><strong>HÄMMERE DEN KNOPF UM DAS SYSTEM NEU ZU STARTEN!</strong></p>
-            
+            <h2 style="color: yellow;">CODE AKZEPTIERT!</h2>
+            <p>MANUELLER NEUSTART ERFORDERLICH.</p>
+            <p><strong>HÄMMERE DEN KNOPF!</strong></p>
             <button id="mash-button" onclick="mashButton()">NOT-AUS<br>DRÜCKEN!</button>
-            
-            <p>Neustart erzwingen:</p>
-            <div id="force-bar-container">
-                <div id="force-bar"></div>
-            </div>
+            <div id="force-bar-container"><div id="force-bar"></div></div>
         </div>
     </div>
 
@@ -396,11 +289,10 @@
 
     <div id="final-message">
         <h1>✅ SYSTEM WIEDERHERGESTELLT</h1>
-        <p style="font-size: 1.5em; margin: 20px;">Die Steam-Bibliothek wurde gerettet.</p>
-        <p>Du kennst Sophia wirklich gut.</p>
-        <br>
-        <div style="border: 2px solid white; padding: 30px; border-radius: 10px; background: rgba(255,255,255,0.1);">
-            <h2>🎁 DEIN ECHTES WEIHNACHTSGESCHENK 🎁</h2>
+        <p style="font-size: 1.5em; margin: 20px;">Die Steam-Bibliothek ist sicher.</p>
+        <p>Du hast es dir wirklich verdient.</p>
+        <div style="border: 2px solid white; padding: 30px; margin-top: 30px; border-radius: 10px; background: rgba(255,255,255,0.1);">
+            <h2>🎁 DEIN GESCHENK 🎁</h2>
             <p style="font-size: 2em; font-weight: bold; margin-top: 20px; animation: pulse 1s infinite;">
                 👇 SCHAU UNTER DEINEN STUHL 👇
             </p>
@@ -408,269 +300,221 @@
     </div>
 
     <script>
-        // --- PHASE 0: FULLSCREEN ---
+        // --- 0. START ---
         function enterFullscreen() {
             const elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen().catch(err => console.log(err));
-            }
-            // Overlay ausblenden, Xmas einblenden
+            if (elem.requestFullscreen) elem.requestFullscreen().catch(err => console.log(err));
             document.getElementById('fullscreen-overlay').style.display = 'none';
             document.getElementById('xmas-container').style.display = 'block';
         }
 
-        // --- PHASE 1 -> 2: SCAM & RICKROLL ---
-        function triggerScam() {
-            // Design Zerstören
+        // --- 1. XMAS -> SCAM ---
+        function showScamPage() {
+            document.getElementById('xmas-container').style.display = 'none';
             document.body.classList.remove('xmas-bg');
             document.body.classList.add('scam-mode');
-            
-            // Kurz warten, dann Video
-            setTimeout(() => {
-                document.getElementById('xmas-container').style.display = 'none';
-                document.getElementById('rickroll-section').style.display = 'block';
-                
-                const video = document.getElementById('rickroll-video');
-                video.muted = false;
-                video.play().catch(() => { video.muted = true; video.play(); });
-
-                startCrazyButton();
-            }, 500);
+            document.getElementById('scam-container').style.display = 'block';
         }
 
-        function startCrazyButton() {
-            const btn = document.getElementById('crazy-button');
-            let startTime = Date.now();
-            let duration = 20000; // 20 Sekunden
-            
-            // Interval für Bewegung (extrem schnell)
-            const moveInterval = setInterval(() => {
-                const timeLeft = Math.ceil((duration - (Date.now() - startTime)) / 1000);
-                
-                if (timeLeft > 0) {
-                    btn.textContent = `⏳ GESPERRT... (${timeLeft}s)`;
-                    // Zufällige Position
-                    const x = Math.random() * (window.innerWidth - 150);
-                    const y = Math.random() * (window.innerHeight - 50);
-                    btn.style.left = x + 'px';
-                    btn.style.top = y + 'px';
-                } else {
-                    clearInterval(moveInterval);
-                    btn.classList.remove('locked');
-                    btn.textContent = "🚨 FEHLER BEHEBEN (HIER KLICKEN) 🚨";
-                    btn.style.left = '50%';
-                    btn.style.top = '50%';
-                    btn.style.transform = 'translate(-50%, -50%)';
-                }
-            }, 50); // Alle 50ms bewegen
-        }
+        // --- 2. SCAM -> RICKROLL ---
+        let btnInterval;
+        let isBtnClickable = false;
 
-        // --- PHASE 2 -> 3: VIRUS & STEAM THREAT ---
-        function triggerVirus() {
+        function startRickroll() {
+            document.getElementById('scam-container').style.display = 'none';
+            document.getElementById('rickroll-section').style.display = 'block';
+            
             const video = document.getElementById('rickroll-video');
-            video.pause();
+            video.muted = false;
+            video.play().catch(() => { video.muted = true; video.play(); });
+
+            const btn = document.getElementById('moving-button');
             
-            document.getElementById('rickroll-section').style.display = 'none';
-            document.getElementById('virus-section').style.display = 'block';
-            document.body.classList.remove('scam-mode'); // Hintergrund schwarz
-            
-            runVirusProgress();
+            // 10 Sekunden warten bis klickbar (aber Button bewegt sich schon)
+            setTimeout(() => {
+                isBtnClickable = true;
+                // Visuell keine Änderung gefordert ("Soll nicht gesperrt dran stehen")
+            }, 10000);
+
+            // Bewegung starten (Langsamer: alle 400ms statt 50ms)
+            btnInterval = setInterval(() => {
+                // Button bewegt sich immer weiter, auch nach den 10s
+                const maxX = window.innerWidth - 200;
+                const maxY = window.innerHeight - 80;
+                
+                const newX = Math.random() * maxX;
+                const newY = Math.random() * maxY;
+                
+                btn.style.left = newX + 'px';
+                btn.style.top = newY + 'px';
+                btn.style.transform = 'none'; // Zentrierung aufheben für absolute pos
+            }, 400); 
         }
 
-        function runVirusProgress() {
-            const bar = document.getElementById('progress-bar');
-            const status = document.getElementById('status-text');
-            const detail = document.getElementById('detail-text');
-            let width = 0;
+        function triggerVirusClick() {
+            if (!isBtnClickable) return; // Tut nichts in den ersten 10s
             
-            const steps = [
-                { pct: 10, text: "Lösche System32..." },
-                { pct: 30, text: "Sende Browser-Verlauf an Kontaktliste..." },
-                { pct: 50, text: "Deaktiviere Firewall..." },
-                { pct: 60, text: "Zugriff auf Steam Client..." },
-                { pct: 70, text: "Lösche Savegames..." },
-                { pct: 80, text: "Lösche Steam Bibliothek (C:/Program Files/Steam)..." },
-                { pct: 85, text: "Formatiere SSD..." }
-            ];
+            clearInterval(btnInterval);
+            document.getElementById('rickroll-video').pause();
+            document.getElementById('rickroll-section').style.display = 'none';
+            
+            triggerVirus();
+        }
 
+        // --- 3. VIRUS & RÄTSEL ---
+        function triggerVirus() {
+            document.body.classList.remove('scam-mode');
+            document.getElementById('virus-section').classList.add('virus-red-bg');
+            document.getElementById('virus-section').style.display = 'block';
+            
+            runProgress();
+        }
+
+        function runProgress() {
+            const bar = document.getElementById('progress-bar');
+            let width = 0;
             const interval = setInterval(() => {
                 if (width >= 87) {
                     clearInterval(interval);
-                    // STOP & PUZZLE
-                    status.textContent = "FEHLER! LÖSCHVORGANG HÄNGT.";
-                    detail.textContent = "WARNUNG: Steam Bibliothek teilweise beschädigt.";
-                    document.getElementById('virus-section').classList.add('blink-red');
-                    document.getElementById('emergency-override').style.display = 'block';
+                    // STOP & ZEIGE RÄTSEL
+                    document.getElementById('virus-status').textContent = "SYSTEMÜBERHITZUNG! KÜHLUNG ERFORDERLICH!";
+                    document.getElementById('virus-status').classList.add('blink');
+                    document.getElementById('riddle-container').style.display = 'block';
+                    createPopup("WARNUNG: CPU TEMP 99°C");
+                    createPopup("WARNUNG: GPU MELTDOWN");
                 } else {
-                    width += 0.5; // Langsam hochzählen
+                    width += 0.5;
                     bar.style.width = width + '%';
-                    
-                    // Texte updaten
-                    const step = steps.find(s => Math.floor(width) === s.pct);
-                    if (step) {
-                        detail.textContent = step.text;
-                        createPopup(step.text);
-                    }
-                    bar.textContent = Math.floor(width) + '%';
+                    if(Math.floor(width) % 10 === 0) createPopup("LÖSCHE DATEIEN...");
                 }
             }, 100);
         }
 
         function createPopup(text) {
-            // Fake Popups erzeugen
             const pop = document.createElement('div');
             pop.style.position = 'fixed';
             pop.style.left = Math.random() * 80 + '%';
             pop.style.top = Math.random() * 80 + '%';
             pop.style.background = 'white';
             pop.style.border = '2px solid red';
-            pop.style.padding = '10px';
+            pop.style.padding = '5px';
             pop.style.zIndex = 7500;
             pop.style.color = 'black';
-            pop.innerText = "⚠️ " + text;
+            pop.style.fontWeight = 'bold';
+            pop.innerText = text;
             document.body.appendChild(pop);
-            
-            setTimeout(() => pop.remove(), 2000);
+            setTimeout(() => pop.remove(), 1500);
         }
 
-        // --- PUZZLE LOGIK (MASH BUTTON) ---
+        // RÄTSEL LOGIK
+        function handleRiddleKey(e) {
+            if (e.key === 'Enter') checkRiddle();
+        }
+
+        function checkRiddle() {
+            const val = document.getElementById('virus-input').value.toLowerCase();
+            const valid = ["stuhl", "sessel", "chair", "gaming stuhl", "gamingstuhl", "gaming-stuhl"];
+            
+            if (valid.some(v => val.includes(v))) {
+                // Correct
+                document.getElementById('riddle-container').style.display = 'none';
+                document.getElementById('emergency-override').style.display = 'block';
+            } else {
+                // Wrong
+                document.getElementById('riddle-error').style.display = 'block';
+                createPopup("FALSCHES PASSWORT");
+            }
+        }
+
+        // MASH BUTTON LOGIK
         let mashCount = 0;
-        let mashTarget = 20;
+        const mashTarget = 15;
         
         function mashButton() {
             mashCount++;
             const pct = (mashCount / mashTarget) * 100;
             document.getElementById('force-bar').style.width = pct + '%';
             
-            // Shake effekt
+            // Wackel Effekt
             const btn = document.getElementById('mash-button');
-            const dx = (Math.random() - 0.5) * 20;
-            const dy = (Math.random() - 0.5) * 20;
-            btn.style.transform = `translate(${dx}px, ${dy}px)`;
+            btn.style.transform = `translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px)`;
 
             if (mashCount >= mashTarget) {
-                document.getElementById('mash-button').disabled = true;
-                document.getElementById('mash-button').innerText = "ERFOLG!";
-                setTimeout(startTerminal, 500);
+                startTerminal();
             }
         }
         
-        // Decay (Balken sinkt wenn man nicht klickt)
+        // Decay
         setInterval(() => {
             if (mashCount > 0 && mashCount < mashTarget) {
                 mashCount -= 0.5;
-                const pct = (mashCount / mashTarget) * 100;
-                document.getElementById('force-bar').style.width = pct + '%';
+                document.getElementById('force-bar').style.width = (mashCount/mashTarget)*100 + '%';
             }
         }, 200);
 
-        // --- PHASE 4: TERMINAL ---
-        // (Fast gleicher Code wie vorher, nur Aufruf angepasst)
-        
+
+        // --- 4. TERMINAL ---
         const questions = [
-            {
-                question: "Wie groß ist Sophia?",
-                answers: ["1,74", "174", "1.74", "1,74 meter", "174cm", "174 cm"],
-                hint: "In Metern oder cm angeben"
-            },
-            {
-                question: "Was ist Sophias Lieblings-Trash-TV-Serie?",
-                answers: ["temptation island", "temptation", "temptationisland"],
-                hint: "Zwei Wörter... oder ein zusammengesetztes Wort"
-            },
-            {
-                question: "Welche Haarfarbe hatte Sophia, als du sie kennengelernt hast?",
-                answers: ["lila", "violett", "purple"],
-                hint: "Eine ungewöhnliche Farbe..."
-            }
+            { q: "Wie groß ist Sophia?", a: ["1,74", "174", "1.74"], h: "Metrisches System." },
+            { q: "Was ist Sophias Lieblings-Trash-TV-Serie?", a: ["temptation"], h: "Versuchung..." },
+            { q: "Welche Haarfarbe hatte Sophia, als ihr euch traft?", a: ["lila", "violett", "purple"], h: "Nicht blond, nicht braun." }
         ];
-
-        let currentQuestion = 0;
-        const terminalContent = document.getElementById('terminal-content');
-        const terminalInput = document.getElementById('terminal-input');
-        const prompt = document.getElementById('prompt');
-
-        function typeText(text, delay = 30) {
-            return new Promise(resolve => {
-                const line = document.createElement('div');
-                line.className = 'terminal-line';
-                terminalContent.appendChild(line);
-                let i = 0;
-                const interval = setInterval(() => {
-                    if (i < text.length) {
-                        line.textContent += text[i];
-                        i++;
-                    } else {
-                        clearInterval(interval);
-                        resolve();
-                    }
-                }, delay);
-                terminalContent.scrollTop = terminalContent.scrollHeight;
-            });
-        }
+        let qIdx = 0;
+        const tContent = document.getElementById('terminal-content');
+        const tInput = document.getElementById('terminal-input');
 
         async function startTerminal() {
-            // Virus verstecken
             document.getElementById('virus-section').style.display = 'none';
-            // Fake Popups löschen
-            document.querySelectorAll('div[style*="z-index: 7500"]').forEach(e => e.remove());
-            
+            document.querySelectorAll('div[style*="zIndex = 7500"]').forEach(e => e.remove());
             document.getElementById('terminal').style.display = 'block';
             
-            await typeText("NOTFALL-REBOOT INITIIERT...");
+            await typeLine("REBOOT SYSTEM...");
             await new Promise(r => setTimeout(r, 500));
-            await typeText("PRÜFE DATENINTEGRITÄT... 100% OK.");
-            await typeText("STEAM BIBLIOTHEK: WIEDERHERGESTELLT.");
-            await new Promise(r => setTimeout(r, 800));
-            await typeText("");
-            await typeText("Sicherheitsprotokoll aktiv.");
-            await typeText("Identitätsnachweis erforderlich für Geschenkübergabe.");
-            await typeText("");
-            
-            askQuestion();
+            await typeLine("STEAM DATEN... GERETTET.");
+            await typeLine("STARTE IDENTITÄTSPRÜFUNG.");
+            await typeLine("");
+            askQ();
         }
 
-        function askQuestion() {
-            if (currentQuestion >= questions.length) {
-                showSuccess();
-                return;
-            }
-            const q = questions[currentQuestion];
-            typeText(`FRAGE ${currentQuestion + 1}/3: ${q.question}`).then(() => {
-                prompt.style.display = 'inline';
-                terminalInput.value = '';
-                terminalInput.focus();
+        function typeLine(text) {
+            return new Promise(resolve => {
+                const div = document.createElement('div');
+                div.className = 'terminal-line';
+                tContent.appendChild(div);
+                let i = 0;
+                const int = setInterval(() => {
+                    if (i < text.length) { div.textContent += text[i]; i++; }
+                    else { clearInterval(int); resolve(); }
+                }, 20);
             });
         }
 
-        terminalInput.addEventListener('keypress', function(e) {
+        function askQ() {
+            if (qIdx >= questions.length) {
+                document.getElementById('terminal').style.display = 'none';
+                document.getElementById('final-message').style.display = 'flex';
+                return;
+            }
+            typeLine(`FRAGE ${qIdx+1}: ${questions[qIdx].q}`).then(() => {
+                document.getElementById('prompt').style.display = 'inline';
+                tInput.value = ''; tInput.focus();
+            });
+        }
+
+        tInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                const answer = this.value.trim().toLowerCase();
-                const q = questions[currentQuestion];
-                prompt.style.display = 'none';
-                typeText(`> ${this.value}`, 10);
+                const val = tInput.value.trim().toLowerCase();
+                const q = questions[qIdx];
+                document.getElementById('prompt').style.display = 'none';
+                typeLine(`> ${tInput.value}`);
                 
-                if (q.answers.some(a => answer.includes(a))) {
-                    setTimeout(() => {
-                        typeText("✓ KORREKT.", 10).then(() => {
-                            currentQuestion++;
-                            setTimeout(askQuestion, 1000);
-                        });
-                    }, 300);
+                if (q.a.some(ans => val.includes(ans))) {
+                    typeLine("KORREKT.").then(() => { qIdx++; setTimeout(askQ, 500); });
                 } else {
-                    setTimeout(() => {
-                        typeText(`✗ FALSCH. HINWEIS: ${q.hint}`).then(() => {
-                            setTimeout(askQuestion, 1500);
-                        });
-                    }, 300);
+                    typeLine(`FALSCH. TIPP: ${q.h}`).then(() => { setTimeout(askQ, 1000); });
                 }
             }
         });
-
-        async function showSuccess() {
-            document.getElementById('terminal').style.display = 'none';
-            document.getElementById('final-message').style.display = 'flex';
-        }
     </script>
 </body>
 </html>
