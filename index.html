@@ -3,239 +3,488 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renés Weihnachts-Mission</title>
+    <title>🎁 Geburtstags-Überraschung für Rene</title>
     <style>
-        body { margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; overflow: hidden; }
-        
-        /* SCREEN 0: MOBILE BLOCKER */
-        #mobile-warning {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: red;
-            justify-content: center; align-items: center; text-align: center;
-            flex-direction: column; z-index: 9999;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* SCREEN 1: THE PRANK (Ugly Design) */
-        #prank-section {
-            background: linear-gradient(45deg, #ff00ff, #00ffff);
-            min-height: 100vh; /* Geändert von height zu min-height */
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            text-align: center; color: yellow; text-shadow: 2px 2px #000;
-            overflow-y: auto; /* Erlaubt scrollen, falls der Bildschirm zu klein ist */
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+            background-size: 400% 400%;
+            animation: gradientShift 5s ease infinite;
+            color: #000;
+            overflow-x: hidden;
         }
-        h1 { font-size: 3rem; margin-bottom: 10px; }
-        .ugly-box {
-            border: 5px dashed yellow; background: blue; padding: 20px; 
-            max-width: 600px;
-            margin: 20px; /* Etwas Abstand zum Rand */
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .fake-img {
-            width: 100%; /* Passt sich der Breite an */
-            max-width: 300px;
-            height: 200px; /* Kleiner gemacht, damit der Button drauf passt! */
-            background: pink; margin: 0 auto;
-            display: flex; align-items: center; justify-content: center;
-            color: black; font-weight: bold; font-size: 20px;
-            background-image: url('https://media.giphy.com/media/26FPCXwJfzwGF6cda/giphy.gif');
-            background-size: cover;
+
+        /* Mobile Block Screen */
+        #mobile-block {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #ff0000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10000;
+            text-align: center;
+            padding: 20px;
         }
-        
-        /* DER RICKROLL BUTTON STYLE */
-        #rick-btn {
-            padding: 15px 30px; font-size: 20px; cursor: pointer;
-            background: red; color: white; border: 3px solid white;
-            margin-top: 20px; position: relative; transition: background 0.3s;
+
+        #mobile-block h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            border: 5px dashed #ff1493;
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.8);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff1493;
+            font-size: 3em;
+            text-shadow: 3px 3px #00ffff;
+            animation: rainbow 2s infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            20% { color: #ff7700; }
+            40% { color: #ffff00; }
+            60% { color: #00ff00; }
+            80% { color: #0000ff; }
+            100% { color: #ff0000; }
+        }
+
+        .marquee {
+            background: yellow;
+            padding: 10px;
+            margin: 20px 0;
+            border: 3px solid red;
+        }
+
+        marquee {
+            font-size: 1.2em;
             font-weight: bold;
         }
 
-        /* Die Tanz-Animation (Links-Rechts) */
-        @keyframes rick-dance {
-            0% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(-100px) rotate(-10deg); }
-            50% { transform: translateX(0) rotate(0deg); }
-            75% { transform: translateX(100px) rotate(10deg); }
-            100% { transform: translateX(0) rotate(0deg); }
+        .gift-box {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(45deg, #ffeb3b, #ff5722);
+            border: 5px solid #000;
         }
 
-        .dancing {
-            animation: rick-dance 0.8s infinite ease-in-out;
-            cursor: not-allowed; /* Zeigt, dass man nicht klicken kann */
+        .gift-box img {
+            max-width: 300px;
+            border: 5px solid #ff1493;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* SCREEN 2: THE QUIZ */
-        #quiz-section {
-            display: none; height: 100vh; background: #111; color: #0f0;
-            flex-direction: column; align-items: center; justify-content: center;
+        /* Rickroll Section */
+        #rickroll-section {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.9);
         }
-        .terminal-window {
-            border: 2px solid #0f0; padding: 40px; width: 600px; background: rgba(0, 20, 0, 0.9);
-            box-shadow: 0 0 20px #0f0;
-        }
-        .question-box { margin-bottom: 20px; font-size: 1.2rem; }
-        .answer-btn {
-            display: block; width: 100%; padding: 10px; margin: 10px 0;
-            background: #003300; color: #0f0; border: 1px solid #0f0;
-            cursor: pointer; text-align: left;
-        }
-        .answer-btn:hover { background: #0f0; color: #000; }
-        
-        /* SCREEN 3: REVEAL */
-        #reveal-section {
-            display: none; height: 100vh; background: black; color: white;
-            flex-direction: column; align-items: center; justify-content: center; text-align: center;
-        }
-        .final-msg { font-size: 2rem; max-width: 800px; line-height: 1.5; }
-        .blink { animation: blinker 1s linear infinite; color: #00ff00; }
-        @keyframes blinker { 50% { opacity: 0; } }
 
+        #rickroll-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        #dancing-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            background: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            pointer-events: none;
+            transition: all 0.1s;
+        }
+
+        #dancing-button.clickable {
+            pointer-events: all;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Terminal */
+        #terminal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 10000;
+        }
+
+        .terminal-line {
+            margin: 10px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #terminal-input {
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            outline: none;
+            width: 80%;
+        }
+
+        .cursor {
+            animation: blink-cursor 1s infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Final Message */
+        #final-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        #final-message h1 {
+            font-size: 4em;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+
+        #final-message p {
+            font-size: 2em;
+            max-width: 800px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.3em;
+            background: #ff1493;
+            color: white;
+            border: 3px solid #000;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #ff69b4;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
 
-    <audio id="audio-player" src="rickroll.mp3"></audio>
-
-    <div id="mobile-warning">
-        <h1>⚠️ SYSTEM ERROR ⚠️</h1>
-        <p>Mobile Verbindung unsicher.</p>
-        <p>Bitte am PC öffnen!</p>
+    <!-- Mobile Block Screen -->
+    <div id="mobile-block">
+        <h1>⚠️ ZUGRIFF VERWEIGERT ⚠️</h1>
+        <p style="font-size: 1.5em;">Bitte nutze ein Secure-Terminal (PC) für den Zugriff.</p>
+        <p style="margin-top: 20px; font-size: 1em;">Mobile Geräte werden aus Sicherheitsgründen blockiert.</p>
     </div>
 
-    <div id="prank-section">
-        <h1>Frohe Weihnachten René! 🎄</h1>
-        <div class="ugly-box">
-            <h2>Dein Geschenk ist da!</h2>
-            <p>Wir wissen, du liebst Anime. Hier ist dein exklusives Wallpaper (4K)!</p>
-            <div class="fake-img">
-                </div>
-            <p>Viel Spaß damit!</p>
-            
-            <button id="rick-btn" onmouseover="triggerRickRoll()" onclick="handleClick()">JETZT DOWNLOADEN</button>
-            
-            <p id="wait-msg" style="display:none; color: red; font-weight: bold;">⚠️ Virus Check... bitte warten...</p>
+    <!-- Main Content -->
+    <div class="container" id="main-content">
+        <h1>🎉 ALLES GUTE ZUM GEBURTSTAG RENE! 🎉</h1>
+        
+        <div class="marquee">
+            <marquee>⭐ EXKLUSIVES GESCHENK NUR FÜR DICH! ⭐ CLICK CLICK CLICK! ⭐</marquee>
+        </div>
+
+        <div class="gift-box">
+            <h2 style="margin-bottom: 20px;">Dein exklusives Geburtstags-Geschenk:</h2>
+            <h3 style="color: #ff1493; font-size: 2em;">✨ ULTRA RARE DEMON SLAYER WALLPAPER COLLECTION ✨</h3>
+            <p style="margin: 20px 0; font-size: 1.2em;">
+                Limited Edition! Nur 1 von 1 verfügbar!<br>
+                4K Ultra HD Premium Waifu Quality!
+            </p>
+            <img src="https://i.pinimg.com/originals/fd/7d/db/fd7ddb0ee34750e1e4ede5308a51b6c2.jpg" alt="Demon Slayer">
+            <br><br>
+            <button id="download-btn" onclick="startRickroll()">
+                🎁 GESCHENK JETZT HERUNTERLADEN 🎁
+            </button>
+        </div>
+
+        <div class="marquee">
+            <marquee direction="right">💝 KLICK OBEN FÜR DEIN GESCHENK! 💝</marquee>
         </div>
     </div>
 
-    <div id="quiz-section">
-        <div class="terminal-window">
-            <h2 style="border-bottom: 1px solid #0f0; padding-bottom: 10px;">> SECURITY CHECK REQUIRED</h2>
-            <p id="quiz-status">System overload... Identifikation notwendig.</p>
-            <hr style="border-color: #0f0; opacity: 0.3;">
-            
-            <div id="q1">
-                <p class="question-box">Frage 1: Welche Farbe hasst Sophia (oder liebt sie)? Was ist ihre LIEBLINGSFARBE?</p>
-                <button class="answer-btn" onclick="wrongAnswer()">Kackbraun</button>
-                <button class="answer-btn" onclick="nextQuestion(2)">Dunkelgrün</button> <button class="answer-btn" onclick="wrongAnswer()">Neon-Pink</button>
-            </div>
-
-            <div id="q2" style="display:none;">
-                <p class="question-box">Frage 2: Was essen wir am liebsten, wenn wir faul sind?</p>
-                <button class="answer-btn" onclick="wrongAnswer()">Salat (lol)</button>
-                <button class="answer-btn" onclick="wrongAnswer()">Nur trocken Brot</button>
-                <button class="answer-btn" onclick="nextQuestion(3)">Pizza / Sushi</button> </div>
-
-            <div id="q3" style="display:none;">
-                <p class="question-box">Letzte Frage: Wer ist der coolste Typ im Raum?</p>
-                <button class="answer-btn" onclick="wrongAnswer()">Der Weihnachtsmann</button>
-                <button class="answer-btn" onclick="finishQuiz()">René</button> </div>
-        </div>
+    <!-- Rickroll Section -->
+    <div id="rickroll-section">
+        <iframe id="rickroll-video" 
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&playlist=dQw4w9WgXcQ" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+        <button id="dancing-button" onclick="startTerminal()">
+            WEITER ZUM ECHTEN GESCHENK
+        </button>
     </div>
 
-    <div id="reveal-section">
-        <div class="final-msg">
-            <h1 class="blink">ZUGRIFF GEWÄHRT</h1>
-            <p>Okay, der Rickroll musste sein.</p>
-            <br>
-            <p>Dein Arsch hat ein Upgrade verdient.</p>
-            <p>Aber du sitzt noch auf dem alten Ding.</p>
-            <br>
-            <h2>SCHAU UNTER DEINEN SITZ!</h2>
-            <p>(Da klebt was)</p>
-        </div>
+    <!-- Terminal -->
+    <div id="terminal">
+        <div id="terminal-content"></div>
+        <span id="prompt" style="display:none;">&gt; <input type="text" id="terminal-input" autofocus></span>
+    </div>
+
+    <!-- Final Message -->
+    <div id="final-message">
+        <h1>🎊 GESCHAFFT! 🎊</h1>
+        <p style="margin-bottom: 30px;">Du hast bewiesen, dass du Sophia wirklich kennst!</p>
+        <p style="font-size: 2.5em; font-weight: bold; animation: pulse 1s infinite;">
+            👇 SCHAU UNTER DEINEN AKTUELLEN STUHL 👇
+        </p>
     </div>
 
     <script>
-        // Check Mobile
-        if(window.innerWidth < 800) {
-            document.getElementById('mobile-warning').style.display = 'flex';
-            document.getElementById('prank-section').style.display = 'none';
+        // Mobile Detection
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        // RICK ROLL LOGIC
-        let isDancing = false;
-        let isReady = false;
-
-        function triggerRickRoll() {
-            if (isDancing || isReady) return; // Nur einmal starten
-
-            isDancing = true;
-            const btn = document.getElementById('rick-btn');
-            const audio = document.getElementById('audio-player');
-            const msg = document.getElementById('wait-msg');
-
-            // Musik starten
-            audio.volume = 0.5; // 50% Lautstärke damit er keinen Herzinfarkt kriegt
-            audio.play().catch(e => console.log("Audio braucht User-Interaktion, klicke einmal irgendwo"));
-
-            // Animation starten
-            btn.classList.add('dancing');
-            btn.innerHTML = "NEVER GONNA GIVE YOU UP...";
-            msg.style.display = "block";
-
-            // Timer: 10 Sekunden warten
-            setTimeout(() => {
-                isDancing = false;
-                isReady = true;
-                
-                // Button beruhigen
-                btn.classList.remove('dancing');
-                btn.style.background = "green";
-                btn.innerHTML = "WEITER (Geschenk abholen)";
-                btn.style.cursor = "pointer";
-                msg.innerHTML = "✅ Check complete.";
-                
-                // Musik leiser machen oder stoppen (optional)
-                // audio.pause(); 
-            }, 10000); // 10000ms = 10 Sekunden
+        if (isMobile()) {
+            document.getElementById('mobile-block').style.display = 'flex';
+            document.getElementById('main-content').style.display = 'none';
         }
 
-        function handleClick() {
-            if (isReady) {
-                // Wenn 10 sekunden vorbei sind -> Quiz starten
-                startQuiz();
-            } else {
-                // Wenn er während des Tanzens klickt
-                triggerRickRoll(); // Sicherstellen, dass Musik läuft
+        // Rickroll Section
+        let rickrollStartTime;
+        let danceInterval;
+
+        function startRickroll() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('rickroll-section').style.display = 'block';
+            
+            rickrollStartTime = Date.now();
+            
+            // Dancing button animation
+            const button = document.getElementById('dancing-button');
+            let direction = 1;
+            let position = 50;
+            
+            danceInterval = setInterval(() => {
+                position += direction * 2;
+                if (position > 70 || position < 30) {
+                    direction *= -1;
+                }
+                button.style.left = position + '%';
+                
+                // After 10 seconds, make button clickable
+                if (Date.now() - rickrollStartTime > 10000) {
+                    clearInterval(danceInterval);
+                    button.classList.add('clickable');
+                    button.style.left = '50%';
+                }
+            }, 100);
+        }
+
+        // Terminal Quiz
+        const questions = [
+            {
+                question: "Wie groß ist Sophia?",
+                answers: ["1,74", "174", "1.74", "1,74 meter", "174cm", "174 cm"],
+                hint: "In Metern oder cm angeben"
+            },
+            {
+                question: "Was ist Sophias Lieblings-Trash-TV-Serie?",
+                answers: ["temptation island", "temptation", "temptationisland"],
+                hint: "Zwei Wörter... oder ein zusammengesetztes Wort"
+            },
+            {
+                question: "Welche Haarfarbe hatte Sophia, als du sie kennengelernt hast?",
+                answers: ["lila", "violett", "purple"],
+                hint: "Eine ungewöhnliche Farbe..."
             }
+        ];
+
+        let currentQuestion = 0;
+        const terminalContent = document.getElementById('terminal-content');
+        const terminalInput = document.getElementById('terminal-input');
+        const prompt = document.getElementById('prompt');
+
+        function typeText(text, delay = 50) {
+            return new Promise(resolve => {
+                let i = 0;
+                const line = document.createElement('div');
+                line.className = 'terminal-line';
+                terminalContent.appendChild(line);
+                
+                const interval = setInterval(() => {
+                    if (i < text.length) {
+                        line.textContent += text[i];
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, delay);
+                
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+            });
         }
 
-        // Transition to Quiz
-        function startQuiz() {
-            // Musik stoppen wenn Quiz beginnt
-            const audio = document.getElementById('audio-player');
-            audio.pause();
-
-            document.getElementById('prank-section').style.display = 'none';
-            document.getElementById('quiz-section').style.display = 'flex';
+        async function startTerminal() {
+            document.getElementById('rickroll-section').style.display = 'none';
+            document.getElementById('terminal').style.display = 'block';
+            
+            await typeText("INITIALISIERE SYSTEM...");
+            await new Promise(r => setTimeout(r, 1000));
+            await typeText("ZUGRIFF ERKANNT...");
+            await new Promise(r => setTimeout(r, 1000));
+            await typeText("STARTE SICHERHEITSPROTOKOLL...");
+            await new Promise(r => setTimeout(r, 1500));
+            await typeText("");
+            await typeText("═══════════════════════════════════════");
+            await typeText("  SICHERHEITSÜBERPRÜFUNG ERFORDERLICH  ");
+            await typeText("═══════════════════════════════════════");
+            await typeText("");
+            await typeText("Um auf dein echtes Geschenk zuzugreifen,");
+            await typeText("musst du beweisen, dass du Sophia kennst.");
+            await typeText("");
+            await typeText("Beantworte 3 Fragen korrekt.");
+            await typeText("");
+            await new Promise(r => setTimeout(r, 2000));
+            
+            askQuestion();
         }
 
-        // Quiz Logic
-        function wrongAnswer() {
-            alert("ZUGRIFF VERWEIGERT! Kennst du Sophia überhaupt? Versuch's nochmal.");
+        function askQuestion() {
+            if (currentQuestion >= questions.length) {
+                showSuccess();
+                return;
+            }
+            
+            const q = questions[currentQuestion];
+            typeText(`FRAGE ${currentQuestion + 1}/3: ${q.question}`).then(() => {
+                prompt.style.display = 'inline';
+                terminalInput.value = '';
+                terminalInput.focus();
+            });
         }
 
-        function nextQuestion(num) {
-            document.getElementById('q1').style.display = 'none';
-            document.getElementById('q2').style.display = 'none';
-            document.getElementById('q3').style.display = 'none';
-            document.getElementById('q'+num).style.display = 'block';
-        }
+        terminalInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const answer = this.value.trim().toLowerCase();
+                const q = questions[currentQuestion];
+                
+                prompt.style.display = 'none';
+                typeText(`> ${this.value}`);
+                
+                if (q.answers.some(a => answer.includes(a))) {
+                    setTimeout(() => {
+                        typeText("✓ KORREKT!").then(() => {
+                            typeText("");
+                            currentQuestion++;
+                            setTimeout(askQuestion, 1500);
+                        });
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        typeText("✗ FALSCH! Versuch es nochmal.").then(() => {
+                            typeText(`HINWEIS: ${q.hint}`).then(() => {
+                                typeText("");
+                                setTimeout(askQuestion, 2000);
+                            });
+                        });
+                    }, 500);
+                }
+            }
+        });
 
-        function finishQuiz() {
-            document.getElementById('quiz-section').style.display = 'none';
-            document.getElementById('reveal-section').style.display = 'flex';
+        async function showSuccess() {
+            await typeText("");
+            await typeText("═══════════════════════════════════════");
+            await typeText("    ALLE FRAGEN KORREKT BEANTWORTET!   ");
+            await typeText("═══════════════════════════════════════");
+            await typeText("");
+            await typeText("ZUGRIFF GEWÄHRT...");
+            await new Promise(r => setTimeout(r, 2000));
+            await typeText("LADE GESCHENK...");
+            await new Promise(r => setTimeout(r, 2000));
+            
+            document.getElementById('terminal').style.display = 'none';
+            document.getElementById('final-message').style.display = 'flex';
         }
     </script>
+
 </body>
 </html>
