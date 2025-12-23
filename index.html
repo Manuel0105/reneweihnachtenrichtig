@@ -16,23 +16,28 @@
             flex-direction: column; z-index: 9999;
         }
 
-        /* SCREEN 1: THE PRANK */
+        /* SCREEN 1: THE PRANK (Ugly Design) */
         #prank-section {
             background: linear-gradient(45deg, #ff00ff, #00ffff);
-            height: 100vh; display: flex; flex-direction: column;
+            min-height: 100vh; /* Geändert von height zu min-height */
+            display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             text-align: center; color: yellow; text-shadow: 2px 2px #000;
+            overflow-y: auto; /* Erlaubt scrollen, falls der Bildschirm zu klein ist */
         }
         h1 { font-size: 3rem; margin-bottom: 10px; }
         .ugly-box {
-            border: 5px dashed yellow; background: blue; padding: 20px; max-width: 600px;
-            position: relative;
+            border: 5px dashed yellow; background: blue; padding: 20px; 
+            max-width: 600px;
+            margin: 20px; /* Etwas Abstand zum Rand */
         }
         .fake-img {
-            width: 300px; height: 400px; background: pink; margin: 0 auto;
+            width: 100%; /* Passt sich der Breite an */
+            max-width: 300px;
+            height: 200px; /* Kleiner gemacht, damit der Button drauf passt! */
+            background: pink; margin: 0 auto;
             display: flex; align-items: center; justify-content: center;
             color: black; font-weight: bold; font-size: 20px;
-            /* Hier ein Anime-GIF Platzhalter */
             background-image: url('https://media.giphy.com/media/26FPCXwJfzwGF6cda/giphy.gif');
             background-size: cover;
         }
@@ -107,6 +112,7 @@
             <p>Viel Spaß damit!</p>
             
             <button id="rick-btn" onmouseover="triggerRickRoll()" onclick="handleClick()">JETZT DOWNLOADEN</button>
+            
             <p id="wait-msg" style="display:none; color: red; font-weight: bold;">⚠️ Virus Check... bitte warten...</p>
         </div>
     </div>
