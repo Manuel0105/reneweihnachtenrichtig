@@ -48,7 +48,7 @@
             51%, 100% { opacity: 0; }
         }
 
-        /* Normal/Serious Design */
+        /* Normal/Serious Design Container */
         .container {
             max-width: 700px;
             margin: 80px auto;
@@ -109,12 +109,24 @@
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        /* Cringe/Scam Design (applied after click) */
+        /* Elemente, die am Anfang versteckt sein müssen */
+        .scam-element {
+            display: none !important;
+        }
+        
+        .normal-element {
+            display: block;
+        }
+
+        /* ------------------------------------------- */
+        /* SCAM MODUS (Wird erst nach Klick aktiviert) */
+        /* ------------------------------------------- */
+        
         body.scam-mode {
-            font-family: 'Comic Sans MS', cursive;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
             background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
             background-size: 400% 400%;
-            animation: gradientShift 5s ease infinite;
+            animation: gradientShift 2s ease infinite;
         }
 
         @keyframes gradientShift {
@@ -127,72 +139,72 @@
             border: 5px dashed #ff1493;
             box-shadow: 0 0 50px rgba(255, 0, 255, 0.8);
             border-radius: 0;
+            transform: rotate(1deg);
         }
 
         body.scam-mode h1 {
             color: #ff1493;
             font-size: 3em;
             text-shadow: 3px 3px #00ffff;
-            animation: rainbow 2s infinite;
+            animation: rainbow 0.5s infinite;
         }
 
         @keyframes rainbow {
-            0% { color: #ff0000; }
-            20% { color: #ff7700; }
-            40% { color: #ffff00; }
-            60% { color: #00ff00; }
-            80% { color: #0000ff; }
-            100% { color: #ff0000; }
+            0% { color: #ff0000; transform: scale(1); }
+            50% { color: #ffff00; transform: scale(1.1); }
+            100% { color: #0000ff; transform: scale(1); }
         }
 
-        .marquee {
-            background: yellow;
-            padding: 10px;
-            margin: 20px 0;
-            border: 3px solid red;
-            display: none;
+        /* Zeige Scam Elemente, Verstecke Normale Elemente */
+        body.scam-mode .scam-element {
+            display: block !important;
         }
 
-        body.scam-mode .marquee {
-            display: block;
+        body.scam-mode .normal-element {
+            display: none !important;
         }
-
-        marquee {
-            font-size: 1.2em;
-            font-weight: bold;
+        
+        /* Inline Block für Bilder im Scam Modus */
+        body.scam-mode img.scam-element {
+            display: inline-block !important;
         }
 
         body.scam-mode .gift-box {
             background: linear-gradient(45deg, #ffeb3b, #ff5722);
             border: 5px solid #000;
             border-radius: 0;
+            animation: shake 0.5s infinite;
         }
 
-        .gift-box img {
-            max-width: 300px;
-            border: 5px solid #ff1493;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            display: none;
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
         body.scam-mode .gift-box img {
-            display: inline-block;
+            max-width: 300px;
+            border: 5px solid #ff1493;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
         }
 
-        .demon-slayer-text {
-            display: none;
-        }
-
-        body.scam-mode .demon-slayer-text {
-            display: block;
-        }
-
-        .normal-text {
-            display: block;
-        }
-
-        body.scam-mode .normal-text {
-            display: none;
+        /* Marquee Styling */
+        .marquee {
+            background: yellow;
+            padding: 10px;
+            margin: 20px 0;
+            border: 3px solid red;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: red;
         }
 
         /* Rickroll Section */
@@ -230,7 +242,7 @@
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            pointer-events: none;
+            pointer-events: none; /* Erst klickbar wenn Video läuft */
             transition: all 0.1s;
         }
 
@@ -312,65 +324,61 @@
 </head>
 <body>
 
-    <!-- Mobile Block Screen -->
     <div id="mobile-block">
         <h1>⚠️ ZUGRIFF VERWEIGERT ⚠️</h1>
         <p style="font-size: 1.5em;">Bitte nutze ein Secure-Terminal (PC) für den Zugriff.</p>
         <p style="margin-top: 20px; font-size: 1em;">Mobile Geräte werden aus Sicherheitsgründen blockiert.</p>
     </div>
 
-    <!-- Main Content -->
     <div class="container" id="main-content">
         <h1>🎉 Alles Gute zum Geburtstag, Rene! 🎉</h1>
         
-        <div class="marquee">
-            <marquee>⭐ EXKLUSIVES GESCHENK NUR FÜR DICH! ⭐ CLICK CLICK CLICK! ⭐</marquee>
+        <div class="marquee scam-element">
+            <marquee>⭐ EXKLUSIVES GESCHENK NUR FÜR DICH! ⭐ CLICK CLICK CLICK! ⭐ $$$ FREE MONEY $$$ ⭐</marquee>
         </div>
 
         <div class="gift-box">
-            <h2 class="normal-text">Dein Geburtstagsgeschenk wartet auf dich!</h2>
-            <h3 class="demon-slayer-text" style="color: #ff1493; font-size: 2em;">✨ ULTRA RARE DEMON SLAYER WALLPAPER COLLECTION ✨</h3>
-            
-            <p class="normal-text">
+            <h2 class="normal-element">Dein Geburtstagsgeschenk wartet auf dich!</h2>
+            <p class="normal-element">
                 Ich habe etwas Besonderes für dich vorbereitet.<br>
                 Klicke auf den Button, um dein Geschenk zu enthüllen.
             </p>
-            
-            <p class="demon-slayer-text" style="margin: 20px 0; font-size: 1.2em;">
+
+            <h3 class="scam-element" style="color: #ff1493; font-size: 2em; background: yellow;">✨ ULTRA RARE DEMON SLAYER WAIFU COLLECTION ✨</h3>
+            <p class="scam-element" style="margin: 20px 0; font-size: 1.2em; color: black; font-weight: bold;">
                 Limited Edition! Nur 1 von 1 verfügbar!<br>
-                4K Ultra HD Premium Waifu Quality!
+                4K Ultra HD Premium Quality!
             </p>
             
-            <img src="https://i.pinimg.com/originals/fd/7d/db/fd7ddb0ee34750e1e4ede5308a51b6c2.jpg" alt="Demon Slayer">
+            <img src="https://i.pinimg.com/originals/fd/7d/db/fd7ddb0ee34750e1e4ede5308a51b6c2.jpg" alt="Demon Slayer" class="scam-element">
             <br><br>
+            
             <button id="download-btn" onclick="startTransformation()">
-                <span class="normal-text">🎁 Geschenk enthüllen</span>
-                <span class="demon-slayer-text">🎁 GESCHENK JETZT HERUNTERLADEN 🎁</span>
+                <span class="normal-element">🎁 Geschenk enthüllen</span>
+                <span class="scam-element">🎁 JETZT SOFORT DOWNLOADEN 🎁</span>
             </button>
         </div>
 
-        <div class="marquee">
-            <marquee direction="right">💝 KLICK OBEN FÜR DEIN GESCHENK! 💝</marquee>
+        <div class="marquee scam-element">
+            <marquee direction="right">💝 KLICK OBEN FÜR DEIN GESCHENK! 💝 100% NO VIRUS 💝</marquee>
         </div>
     </div>
 
-    <!-- Rickroll Section -->
     <div id="rickroll-section">
-        <video id="rickroll-video" autoplay loop muted>
+        <video id="rickroll-video" loop>
             <source src="rickroll.mp4" type="video/mp4">
+            Dein Browser unterstützt keine Videos.
         </video>
         <button id="dancing-button" onclick="startTerminal()">
             WEITER ZUM ECHTEN GESCHENK
         </button>
     </div>
 
-    <!-- Terminal -->
     <div id="terminal">
         <div id="terminal-content"></div>
         <span id="prompt" style="display:none;">&gt; <input type="text" id="terminal-input" autofocus></span>
     </div>
 
-    <!-- Final Message -->
     <div id="final-message">
         <h1>🎊 GESCHAFFT! 🎊</h1>
         <p style="margin-bottom: 30px;">Du hast bewiesen, dass du Sophia wirklich kennst!</p>
@@ -395,14 +403,15 @@
         // Transformation + Rickroll
         function startTransformation() {
             if (!hasTransformed) {
-                // Transform to scam mode
+                // 1. Erstmal das Design zerstören (Scam Mode an)
                 document.body.classList.add('scam-mode');
                 hasTransformed = true;
                 
-                // Wait a bit for the transformation animation
+                // 2. Kurz warten (0.5 Sek), damit er den "Schock" des Designs sieht
+                // und DANN startet das Video
                 setTimeout(() => {
                     startRickroll();
-                }, 500);
+                }, 500); 
             } else {
                 startRickroll();
             }
@@ -416,18 +425,26 @@
             const rickrollSection = document.getElementById('rickroll-section');
             rickrollSection.style.display = 'flex';
             
-            // Unmute and play video
+            // Video abspielen (Da der User vorher geklickt hat, erlaubt der Browser Audio)
             const video = document.getElementById('rickroll-video');
-            video.muted = false;
-            video.play().catch(e => console.log('Autoplay issue:', e));
+            video.muted = false; // Ton an
+            video.play().then(() => {
+                console.log("Video gestartet");
+            }).catch(e => {
+                console.log('Autoplay issue:', e);
+                // Fallback falls Autoplay blockiert wird: Video stumm starten
+                video.muted = true;
+                video.play();
+            });
             
             rickrollStartTime = Date.now();
             
-            // Dancing button animation
+            // Dancing button logic
             const button = document.getElementById('dancing-button');
             let direction = 1;
             let position = 50;
             
+            // Button bewegt sich sofort
             danceInterval = setInterval(() => {
                 position += direction * 2;
                 if (position > 70 || position < 30) {
@@ -435,7 +452,7 @@
                 }
                 button.style.left = position + '%';
                 
-                // After 10 seconds, make button clickable
+                // Nach 10 Sekunden wird der Button klickbar
                 if (Date.now() - rickrollStartTime > 10000) {
                     clearInterval(danceInterval);
                     button.classList.add('clickable');
@@ -444,7 +461,7 @@
             }, 100);
         }
 
-        // Terminal Quiz
+        // Terminal Quiz Logic
         const questions = [
             {
                 question: "Wie groß ist Sophia?",
